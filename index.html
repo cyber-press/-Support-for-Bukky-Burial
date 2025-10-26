@@ -1,0 +1,2422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support for Bukky Daddy's Burial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            box-sizing: border-box;
+        }
+        
+        .progress-bar {
+            transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .card-hover:hover::before {
+            left: 100%;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255,255,255,0.8);
+        }
+        
+        .input-focus {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .input-focus:focus {
+            transform: scale(1.02);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15), 0 8px 25px -5px rgba(59, 130, 246, 0.1);
+            border-color: #3b82f6;
+        }
+        
+        .input-focus:hover {
+            border-color: #6b7280;
+            transform: translateY(-1px);
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -200px 0;
+            }
+            100% {
+                background-position: calc(200px + 100%) 0;
+            }
+        }
+        
+        .animate-slide-in {
+            animation: slideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .animate-bounce-in {
+            animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card:hover {
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            transform: translateY(-2px);
+        }
+        
+        .milestone {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .milestone.reached {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        
+        .milestone.current {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            animation: pulse 2s infinite;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+        }
+        
+        .milestone:not(.reached):not(.current):hover {
+            background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+            }
+            50% { 
+                transform: scale(1.02);
+                box-shadow: 0 6px 20px rgba(245, 158, 11, 0.6);
+            }
+        }
+        
+        @keyframes progressFill {
+            from {
+                width: 0%;
+            }
+        }
+        
+        .progress-circle {
+            transition: stroke-dasharray 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .button-success {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            transform: scale(0.98);
+        }
+        
+        .loading-shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200px 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 16px 24px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            transform: translateX(400px);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+        
+        .notification.error {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+        }
+        
+        .tooltip {
+            position: relative;
+        }
+        
+        .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .tooltip:hover::after {
+            opacity: 1;
+        }
+        
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200px 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 4px;
+        }
+        
+        /* Mobile-first responsive design */
+        .container-responsive {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+        }
+        
+        /* Mobile touch targets */
+        .touch-target {
+            min-height: 44px;
+            min-width: 44px;
+        }
+        
+        /* Mobile-optimized cards */
+        .mobile-card {
+            margin-bottom: 1rem;
+            border-radius: 1rem;
+            padding: 1rem;
+        }
+        
+        /* Mobile progress circle */
+        .mobile-progress {
+            width: 200px;
+            height: 200px;
+        }
+        
+        /* Mobile grid layout */
+        .mobile-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        /* Mobile stats grid */
+        .mobile-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+        
+        /* Mobile text sizes */
+        .mobile-title {
+            font-size: 1.5rem;
+            line-height: 2rem;
+        }
+        
+        .mobile-subtitle {
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+        }
+        
+        .mobile-body {
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+        }
+        
+        /* Tablet breakpoint */
+        @media (min-width: 640px) {
+            .container-responsive {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .mobile-card {
+                padding: 1.5rem;
+                border-radius: 1.5rem;
+            }
+            
+            .mobile-progress {
+                width: 240px;
+                height: 240px;
+            }
+            
+            .mobile-title {
+                font-size: 1.875rem;
+                line-height: 2.25rem;
+            }
+            
+            .mobile-subtitle {
+                font-size: 1.25rem;
+                line-height: 1.75rem;
+            }
+            
+            .mobile-body {
+                font-size: 1rem;
+                line-height: 1.5rem;
+            }
+        }
+        
+        /* Desktop breakpoint */
+        @media (min-width: 1024px) {
+            .container-responsive {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+            
+            .mobile-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+            
+            .mobile-card {
+                padding: 2rem;
+                border-radius: 2rem;
+            }
+            
+            .mobile-progress {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .mobile-title {
+                font-size: 2.25rem;
+                line-height: 2.5rem;
+            }
+            
+            .mobile-subtitle {
+                font-size: 1.5rem;
+                line-height: 2rem;
+            }
+        }
+        
+        /* Large desktop */
+        @media (min-width: 1280px) {
+            .container-responsive {
+                padding-left: 2rem;
+                padding-right: 2rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-full container-responsive">
+    <div class="max-w-7xl mx-auto w-full">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 mobile-card text-white shadow-2xl">
+            <h1 class="mobile-title font-bold mb-2">💰 Support for Bukky Daddy's Burial</h1>
+            <p class="text-indigo-100 mobile-body mb-3">Interactive tracker for Bukky Daddy's burial support</p>
+            <div class="bg-white/20 rounded-lg p-3 w-full">
+                <div class="font-semibold mobile-body">Target: ₦400,000</div>
+                <div class="font-semibold mobile-body">Burial: Nov 28–29, Abuja</div>
+            </div>
+        </div>
+
+        <!-- Progress Overview -->
+        <div class="mobile-grid mb-6">
+            <!-- Progress Circle -->
+            <div class="bg-gradient-to-br from-gray-50 to-gray-100 mobile-card shadow-lg">
+                <h3 class="mobile-subtitle font-bold text-gray-800 mb-4 text-center">📊 Progress Overview</h3>
+                <div class="flex justify-center mb-4">
+                    <div class="relative">
+                        <svg class="mobile-progress drop-shadow-lg" viewBox="0 0 280 280">
+                            <!-- Background circle -->
+                            <circle cx="140" cy="140" r="120" fill="none" stroke="#e5e7eb" stroke-width="20"/>
+                            <!-- Progress circle -->
+                            <circle cx="140" cy="140" r="120" fill="none" stroke="#10b981" stroke-width="20" 
+                                    class="progress-circle" stroke-dasharray="214.6 753.6" stroke-linecap="round"/>
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <div id="mainProgress" class="text-2xl font-bold text-gray-800">28.5%</div>
+                            <div class="text-xs text-gray-600 text-center">Complete</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Financial Summary -->
+                <div class="space-y-3">
+                    <div class="p-3 bg-green-50 rounded-xl border-l-4 border-green-500">
+                        <div class="font-semibold text-gray-700 mobile-body mb-1">Amount Raised:</div>
+                        <div id="overviewRaised" class="text-lg font-bold text-green-600">₦114,000</div>
+                    </div>
+                    <div class="p-3 bg-blue-50 rounded-xl border-l-4 border-blue-500">
+                        <div class="font-semibold text-gray-700 mobile-body mb-1">Target Amount:</div>
+                        <div class="text-lg font-bold text-blue-600">₦400,000</div>
+                    </div>
+                    <div class="p-3 bg-orange-50 rounded-xl border-l-4 border-orange-500">
+                        <div class="font-semibold text-gray-700 mobile-body mb-1">Remaining:</div>
+                        <div id="overviewRemaining" class="text-lg font-bold text-orange-600">₦286,000</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Milestones -->
+            <div class="bg-gradient-to-br from-gray-50 to-gray-100 mobile-card shadow-lg">
+                <h3 class="mobile-subtitle font-bold text-gray-800 mb-4 text-center">🎯 Milestones</h3>
+                <div class="space-y-3">
+                    <div class="milestone reached p-3 rounded-xl shadow-md touch-target">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <span class="text-xl">✅</span>
+                                <span class="font-semibold mobile-body">25% Milestone</span>
+                            </div>
+                            <span class="font-bold mobile-body">₦100,000</span>
+                        </div>
+                    </div>
+                    
+                    <div class="milestone current p-3 rounded-xl shadow-md touch-target">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <span class="text-xl">🔥</span>
+                                <span class="font-semibold mobile-body">Current Progress</span>
+                            </div>
+                            <span class="font-bold mobile-body">₦114,000</span>
+                        </div>
+                    </div>
+                    
+                    <div class="milestone p-3 bg-gray-200 rounded-xl touch-target">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <span class="text-xl">⏳</span>
+                                <span class="font-semibold text-gray-700 mobile-body">50% Milestone</span>
+                            </div>
+                            <span class="font-bold text-gray-700 mobile-body">₦200,000</span>
+                        </div>
+                    </div>
+                    
+                    <div class="milestone p-3 bg-gray-200 rounded-xl touch-target">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <span class="text-xl">⏳</span>
+                                <span class="font-semibold text-gray-700 mobile-body">75% Milestone</span>
+                            </div>
+                            <span class="font-bold text-gray-700 mobile-body">₦300,000</span>
+                        </div>
+                    </div>
+                    
+                    <div class="milestone p-3 bg-gray-200 rounded-xl touch-target">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <span class="text-xl">🏆</span>
+                                <span class="font-semibold text-gray-700 mobile-body">Goal Reached</span>
+                            </div>
+                            <span class="font-bold text-gray-700 mobile-body">₦400,000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mobile-grid">
+            <!-- Left Column: Live Tracker -->
+            <div class="space-y-4">
+                <!-- Add Contribution Card -->
+                <div class="bg-white mobile-card shadow-lg card-hover">
+                    <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="text-xl mr-2">💳</span>
+                        Make a Contribution
+                    </h2>
+                    
+                    <!-- Bank Account Information -->
+                    <div class="bg-gradient-to-r from-green-50 to-blue-50 p-4 rounded-xl mb-4 border border-green-200">
+                        <h3 class="font-bold text-gray-800 mb-3 flex items-center mobile-body">
+                            <span class="text-lg mr-2">🏦</span>
+                            Bank Account Details
+                        </h3>
+                        
+                        <div class="space-y-3">
+                            <div class="bg-white/80 p-3 rounded-lg">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <div class="text-xs text-gray-600 uppercase tracking-wide">Account Number</div>
+                                        <div class="font-bold text-gray-800 text-lg" id="accountNumber">0296958106</div>
+                                    </div>
+                                    <button onclick="copyToClipboard('0296958106', 'Account number')" 
+                                            class="bg-blue-100 hover:bg-blue-200 text-blue-700 p-2 rounded-lg transition-all hover:scale-105 touch-target">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white/80 p-3 rounded-lg">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <div class="text-xs text-gray-600 uppercase tracking-wide">Bank Name</div>
+                                        <div class="font-bold text-gray-800" id="bankName">Wema Bank</div>
+                                    </div>
+                                    <button onclick="copyToClipboard('Wema Bank', 'Bank name')" 
+                                            class="bg-blue-100 hover:bg-blue-200 text-blue-700 p-2 rounded-lg transition-all hover:scale-105 touch-target">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-white/80 p-3 rounded-lg">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <div class="text-xs text-gray-600 uppercase tracking-wide">Account Name</div>
+                                        <div class="font-bold text-gray-800" id="accountName">OLORUNFEMI Ayodele Janet</div>
+                                    </div>
+                                    <button onclick="copyToClipboard('OLORUNFEMI Ayodele Janet', 'Account name')" 
+                                            class="bg-blue-100 hover:bg-blue-200 text-blue-700 p-2 rounded-lg transition-all hover:scale-105 touch-target">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-3 flex space-x-2">
+                            <button onclick="copyAllBankDetails()" 
+                                    class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-all hover:scale-105 mobile-body touch-target">
+                                📋 Copy All Details
+                            </button>
+                            <button onclick="shareBankDetails()" 
+                                    class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all hover:scale-105 mobile-body touch-target">
+                                📤 Share Details
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Amount Buttons -->
+                    <div class="mb-4">
+                        <h4 class="font-semibold text-gray-700 mb-2 mobile-body">💡 Suggested Amounts</h4>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="selectAmount(5000)" 
+                                    class="amount-btn bg-green-50 hover:bg-green-100 border-2 border-green-200 text-green-800 font-semibold py-3 px-4 rounded-lg transition-all hover:scale-105 mobile-body touch-target">
+                                ₦5,000
+                            </button>
+                            <button onclick="selectAmount(10000)" 
+                                    class="amount-btn bg-blue-50 hover:bg-blue-100 border-2 border-blue-200 text-blue-800 font-semibold py-3 px-4 rounded-lg transition-all hover:scale-105 mobile-body touch-target">
+                                ₦10,000
+                            </button>
+                            <button onclick="selectAmount(15000)" 
+                                    class="amount-btn bg-purple-50 hover:bg-purple-100 border-2 border-purple-200 text-purple-800 font-semibold py-3 px-4 rounded-lg transition-all hover:scale-105 mobile-body touch-target">
+                                ₦15,000
+                            </button>
+                            <button onclick="selectAmount(20000)" 
+                                    class="amount-btn bg-orange-50 hover:bg-orange-100 border-2 border-orange-200 text-orange-800 font-semibold py-3 px-4 rounded-lg transition-all hover:scale-105 mobile-body touch-target">
+                                ₦20,000
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Contribution Form -->
+                    <div class="space-y-4">
+                        <div>
+                            <label for="donorName" class="block mobile-body font-semibold text-gray-700 mb-2">Your Name</label>
+                            <input type="text" id="donorName" placeholder="Enter your full name" 
+                                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none input-focus mobile-body touch-target">
+                        </div>
+                        
+                        <div>
+                            <label for="donorAmount" class="block mobile-body font-semibold text-gray-700 mb-2">Amount Contributed (₦)</label>
+                            <input type="number" id="donorAmount" placeholder="Enter amount you transferred" min="0" 
+                                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none input-focus mobile-body touch-target">
+                        </div>
+                        
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                            <div class="flex items-start space-x-2">
+                                <span class="text-yellow-600 text-lg">💡</span>
+                                <div class="text-sm text-yellow-800">
+                                    <strong>After transferring:</strong> Please add your contribution here so we can track our progress together!
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button onclick="addContribution()" 
+                                class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-green-300 relative overflow-hidden group mobile-body touch-target">
+                            <span class="relative z-10">✅ Record My Contribution</span>
+                            <div class="absolute inset-0 bg-gradient-to-r from-green-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Progress Card -->
+                <div class="bg-white mobile-card shadow-lg card-hover">
+                    <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="text-xl mr-2">📊</span>
+                        Progress to Goal
+                    </h2>
+                    
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="mobile-body font-semibold text-gray-600">Current Progress</span>
+                            <span id="progressPercent" class="text-lg font-bold text-blue-600">28.5%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-6 overflow-hidden">
+                            <div id="progressBar" class="progress-bar bg-gradient-to-r from-blue-500 to-purple-500 h-full rounded-full" style="width: 28.5%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-stats">
+                        <div class="text-center p-3 bg-green-50 rounded-xl">
+                            <div class="text-lg font-bold text-green-600" id="totalRaised">₦114,000</div>
+                            <div class="text-xs text-gray-600">Raised</div>
+                        </div>
+                        <div class="text-center p-3 bg-orange-50 rounded-xl">
+                            <div class="text-lg font-bold text-orange-600" id="totalRemaining">₦286,000</div>
+                            <div class="text-xs text-gray-600">Remaining</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Stats -->
+                <div class="bg-white mobile-card shadow-lg card-hover">
+                    <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="text-xl mr-2">📈</span>
+                        Current Statistics
+                    </h2>
+                    
+                    <div class="mobile-stats">
+                        <div class="stat-card p-3 rounded-xl tooltip touch-target" data-tooltip="Total number of people who have contributed">
+                            <div class="text-lg font-bold text-gray-800" id="totalContributors">4</div>
+                            <div class="text-xs text-gray-600">Contributors</div>
+                        </div>
+                        <div class="stat-card p-3 rounded-xl tooltip touch-target" data-tooltip="Average amount per contribution">
+                            <div class="text-lg font-bold text-gray-800" id="averageContribution">₦28,500</div>
+                            <div class="text-xs text-gray-600">Average</div>
+                        </div>
+                        <div class="stat-card p-3 rounded-xl tooltip touch-target" data-tooltip="Percentage of group members who have contributed">
+                            <div class="text-lg font-bold text-gray-800" id="participationRate">7.0%</div>
+                            <div class="text-xs text-gray-600">Participation</div>
+                        </div>
+                        <div class="stat-card p-3 rounded-xl tooltip touch-target" data-tooltip="Amount needed from each remaining member">
+                            <div class="text-lg font-bold text-gray-800" id="neededPerPerson">₦7,018</div>
+                            <div class="text-xs text-gray-600">Needed/Person</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Community Support Stats -->
+                <div class="bg-white mobile-card shadow-lg card-hover">
+                    <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="text-xl mr-2">💝</span>
+                        Community Support
+                    </h2>
+                    
+                    <div class="space-y-3 mb-4">
+                        <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-3 rounded-xl border border-purple-200">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-lg">🙏</span>
+                                    <span class="font-semibold text-purple-800 text-sm">Messages of Support</span>
+                                </div>
+                                <div class="text-lg font-bold text-purple-700" id="liveSupportCount">0</div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-3 rounded-xl border border-blue-200">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-lg">💙</span>
+                                    <span class="font-semibold text-blue-800 text-sm">Emotional Support</span>
+                                </div>
+                                <div class="text-sm font-bold text-blue-700">Active</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="showSupportStats()" 
+                            class="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-4 rounded-xl transition-all flex items-center justify-center space-x-2 touch-target">
+                        <span>📊</span>
+                        <span>View Support Impact</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Column: What-If Simulator -->
+            <div class="space-y-4">
+                <!-- Simulator Controls -->
+                <div class="bg-white mobile-card shadow-lg card-hover">
+                    <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="text-xl mr-2">🔮</span>
+                        What-If Simulator
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block mobile-body font-semibold text-gray-700 mb-2">Group Members</label>
+                            <input type="number" id="simGroupSize" value="57" min="1" 
+                                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none input-focus mobile-body touch-target"
+                                   onchange="updateSimulation()">
+                        </div>
+                        
+                        <div>
+                            <label class="block mobile-body font-semibold text-gray-700 mb-2">Contributors</label>
+                            <input type="number" id="simContributors" value="4" min="0" 
+                                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none input-focus mobile-body touch-target"
+                                   onchange="updateSimulation()">
+                        </div>
+                        
+                        <div>
+                            <label class="block mobile-body font-semibold text-gray-700 mb-2">Total Amount (₦)</label>
+                            <input type="number" id="simTotalAmount" value="114000" min="0" 
+                                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none input-focus mobile-body touch-target"
+                                   onchange="updateSimulation()">
+                        </div>
+                        
+                        <button onclick="resetSimulation()" 
+                                class="w-full bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 px-4 rounded-xl transition-all mobile-body touch-target">
+                            Reset to Current
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Simulation Results -->
+                <div class="bg-white mobile-card shadow-lg card-hover">
+                    <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="text-xl mr-2">📋</span>
+                        Simulation Results
+                    </h2>
+                    
+                    <div class="space-y-4">
+                        <div class="p-4 bg-purple-50 rounded-xl">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-semibold text-gray-700 mobile-body">Progress</span>
+                                <span id="simProgress" class="text-lg font-bold text-purple-600">28.5%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div id="simProgressBar" class="bg-gradient-to-r from-purple-500 to-pink-500 h-full rounded-full transition-all duration-500" style="width: 28.5%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mobile-stats">
+                            <div class="p-3 bg-blue-50 rounded-xl text-center">
+                                <div id="simRemaining" class="text-lg font-bold text-blue-600">₦286,000</div>
+                                <div class="text-xs text-gray-600">Remaining</div>
+                            </div>
+                            <div class="p-3 bg-green-50 rounded-xl text-center">
+                                <div id="simAverage" class="text-lg font-bold text-green-600">₦28,500</div>
+                                <div class="text-xs text-gray-600">Average</div>
+                            </div>
+                            <div class="p-3 bg-orange-50 rounded-xl text-center">
+                                <div id="simParticipation" class="text-lg font-bold text-orange-600">7.0%</div>
+                                <div class="text-xs text-gray-600">Participation</div>
+                            </div>
+                            <div class="p-3 bg-red-50 rounded-xl text-center">
+                                <div id="simNeededPerPerson" class="text-lg font-bold text-red-600">₦7,018</div>
+                                <div class="text-xs text-gray-600">Per Person</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comparison -->
+                <div class="bg-white mobile-card shadow-lg card-hover">
+                    <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="text-xl mr-2">⚖️</span>
+                        Current vs Simulation
+                    </h2>
+                    
+                    <div id="comparisonResults" class="space-y-3">
+                        <!-- Comparison items will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Contributors List -->
+                <div class="bg-white mobile-card shadow-lg card-hover">
+                    <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="text-xl mr-2">👥</span>
+                        Contributors
+                    </h2>
+                    
+                    <div id="contributorsList" class="space-y-2 max-h-64 overflow-y-auto">
+                        <!-- Contributors will be listed here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Call to Action -->
+        <div class="bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 mobile-card text-center mt-6 relative overflow-hidden">
+            <!-- Background decoration -->
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute top-4 left-4 w-16 h-16 bg-green-400 rounded-full blur-xl"></div>
+                <div class="absolute bottom-4 right-4 w-20 h-20 bg-blue-400 rounded-full blur-xl"></div>
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-purple-400 rounded-full blur-xl"></div>
+            </div>
+            
+            <div class="relative z-10">
+                <h3 class="mobile-title font-bold text-gray-800 mb-4 flex items-center justify-center">
+                    <span class="text-2xl mr-3">🤝</span>
+                    Join Our Cause
+                </h3>
+                
+                <!-- Progress highlight -->
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 mb-6 border border-white/50">
+                    <div class="flex items-center justify-center space-x-4 mb-3">
+                        <div class="text-center">
+                            <div id="ctaProgress" class="text-2xl font-bold text-green-600">28.5%</div>
+                            <div class="text-xs text-gray-600">Complete</div>
+                        </div>
+                        <div class="w-px h-8 bg-gray-300"></div>
+                        <div class="text-center">
+                            <div id="ctaRemaining" class="text-2xl font-bold text-orange-600">₦286,000</div>
+                            <div class="text-xs text-gray-600">To Go</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mobile-body leading-relaxed">
+                        Every contribution, no matter the size, brings us closer to giving Bukky Daddy the dignified farewell he deserves. Your support makes a real difference.
+                    </p>
+                </div>
+                
+                <!-- Action cards with hover effects -->
+                <div class="space-y-4 mb-6">
+                    <div class="bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-white/50 card-hover cursor-pointer group" onclick="scrollToContribution()">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">
+                                💰
+                            </div>
+                            <div class="flex-1 text-left">
+                                <div class="font-bold text-gray-800 mobile-body">Make a Contribution</div>
+                                <div class="text-xs text-gray-600">Add your support directly to the fund</div>
+                            </div>
+                            <div class="text-green-600 group-hover:translate-x-1 transition-transform">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-white/50 card-hover cursor-pointer group" onclick="shareTracker()">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">
+                                📢
+                            </div>
+                            <div class="flex-1 text-left">
+                                <div class="font-bold text-gray-800 mobile-body">Share This Tracker</div>
+                                <div class="text-xs text-gray-600">Help spread awareness to more supporters</div>
+                            </div>
+                            <div class="text-blue-600 group-hover:translate-x-1 transition-transform">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-white/50 card-hover cursor-pointer group" onclick="showPrayerMessage()">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">
+                                🙏
+                            </div>
+                            <div class="flex-1 text-left">
+                                <div class="font-bold text-gray-800 mobile-body">Send Prayers & Support</div>
+                                <div class="text-xs text-gray-600">Offer emotional encouragement to the family</div>
+                            </div>
+                            <div class="text-purple-600 group-hover:translate-x-1 transition-transform">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Impact statement -->
+                <div class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl p-6 mb-6">
+                    <h4 class="font-bold mobile-body mb-3">🌟 Your Impact Matters</h4>
+                    <div class="mobile-stats text-center">
+                        <div class="bg-white/20 rounded-lg p-3">
+                            <div class="text-lg font-bold">₦7,018</div>
+                            <div class="text-xs opacity-90">Per person needed</div>
+                        </div>
+                        <div class="bg-white/20 rounded-lg p-3">
+                            <div class="text-lg font-bold">53</div>
+                            <div class="text-xs opacity-90">Members remaining</div>
+                        </div>
+                    </div>
+                    <p class="text-sm opacity-90 mt-3 leading-relaxed">
+                        If each remaining member contributes just ₦7,018, we'll reach our goal and honor Bukky Daddy's memory together.
+                    </p>
+                </div>
+                
+                <!-- Quick contribution buttons -->
+                <div class="mb-6">
+                    <h4 class="font-semibold text-gray-800 mb-3 mobile-body">💡 Quick Contribution Ideas</h4>
+                    <div class="flex flex-wrap gap-2 justify-center">
+                        <button onclick="quickContribute(5000)" class="bg-green-100 hover:bg-green-200 text-green-800 px-4 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 touch-target">
+                            ₦5,000
+                        </button>
+                        <button onclick="quickContribute(10000)" class="bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 touch-target">
+                            ₦10,000
+                        </button>
+                        <button onclick="quickContribute(15000)" class="bg-purple-100 hover:bg-purple-200 text-purple-800 px-4 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 touch-target">
+                            ₦15,000
+                        </button>
+                        <button onclick="quickContribute(20000)" class="bg-orange-100 hover:bg-orange-200 text-orange-800 px-4 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 touch-target">
+                            ₦20,000
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Contact information -->
+                <div class="bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-white/50">
+                    <h4 class="font-semibold text-gray-800 mb-2 mobile-body">📞 Need Help or Have Questions?</h4>
+                    <p class="text-sm text-gray-600 mb-3">
+                        Contact the organizing committee for assistance or more information about the burial arrangements.
+                    </p>
+                    <div class="flex flex-wrap gap-2 justify-center">
+                        <button onclick="showContactInfo()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all hover:scale-105 touch-target">
+                            Contact Organizers
+                        </button>
+                        <button onclick="showBurialDetails()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all hover:scale-105 touch-target">
+                            Burial Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initial data
+        let fundraiserData = {
+            target: 400000,
+            groupSize: 57,
+            contributors: [
+                { name: "Lieutenant Ebenezer", amount: 50000 },
+                { name: "Press (Combined)", amount: 34000 },
+                { name: "Barrister Francis", amount: 20000 },
+                { name: "Victoria", amount: 10000 }
+            ]
+        };
+
+        function formatCurrency(amount) {
+            return `₦${amount.toLocaleString()}`;
+        }
+
+        function calculateStats(data = fundraiserData) {
+            const totalRaised = data.contributors.reduce((sum, c) => sum + c.amount, 0);
+            const remaining = data.target - totalRaised;
+            const progress = (totalRaised / data.target) * 100;
+            const contributorCount = data.contributors.length;
+            const averageContribution = contributorCount > 0 ? totalRaised / contributorCount : 0;
+            const participationRate = (contributorCount / data.groupSize) * 100;
+            const neededPerPerson = remaining / data.groupSize;
+
+            return {
+                totalRaised,
+                remaining,
+                progress,
+                contributorCount,
+                averageContribution,
+                participationRate,
+                neededPerPerson
+            };
+        }
+
+        function animateValue(element, start, end, duration = 1000, formatter = (val) => val) {
+            const startTime = performance.now();
+            
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function for smooth animation
+                const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+                const current = start + (end - start) * easeOutCubic;
+                
+                element.textContent = formatter(current);
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+            
+            requestAnimationFrame(update);
+        }
+
+        function updateDisplay() {
+            const stats = calculateStats();
+            const prevStats = window.prevStats || {
+                totalRaised: 0,
+                remaining: fundraiserData.target,
+                progress: 0,
+                contributorCount: 0,
+                averageContribution: 0,
+                participationRate: 0,
+                neededPerPerson: fundraiserData.target / fundraiserData.groupSize
+            };
+            
+            // Animate progress percentage in both locations
+            const progressElement = document.getElementById('progressPercent');
+            const mainProgressElement = document.getElementById('mainProgress');
+            animateValue(progressElement, prevStats.progress, stats.progress, 1200, (val) => `${val.toFixed(1)}%`);
+            animateValue(mainProgressElement, prevStats.progress, stats.progress, 1200, (val) => `${val.toFixed(1)}%`);
+            
+            // Animate progress bars
+            setTimeout(() => {
+                document.getElementById('progressBar').style.width = `${Math.min(stats.progress, 100)}%`;
+                updateProgressCircle(stats.progress);
+            }, 200);
+            
+            // Animate all totals with number formatting
+            animateValue(document.getElementById('totalRaised'), prevStats.totalRaised, stats.totalRaised, 1000, formatCurrency);
+            animateValue(document.getElementById('totalRemaining'), prevStats.remaining, stats.remaining, 1000, formatCurrency);
+            animateValue(document.getElementById('overviewRaised'), prevStats.totalRaised, stats.totalRaised, 1000, formatCurrency);
+            animateValue(document.getElementById('overviewRemaining'), prevStats.remaining, stats.remaining, 1000, formatCurrency);
+            
+            // Animate all statistics
+            animateValue(document.getElementById('totalContributors'), prevStats.contributorCount, stats.contributorCount, 800, Math.round);
+            animateValue(document.getElementById('averageContribution'), prevStats.averageContribution, stats.averageContribution, 1000, formatCurrency);
+            animateValue(document.getElementById('participationRate'), prevStats.participationRate, stats.participationRate, 1000, (val) => `${val.toFixed(1)}%`);
+            animateValue(document.getElementById('neededPerPerson'), prevStats.neededPerPerson, stats.neededPerPerson, 1000, formatCurrency);
+            
+            // Update live support counter
+            const liveSupportElement = document.getElementById('liveSupportCount');
+            if (liveSupportElement) {
+                liveSupportElement.textContent = supportData.totalEmotionalSupport;
+                if (supportData.totalEmotionalSupport > 0) {
+                    liveSupportElement.parentElement.parentElement.classList.add('animate-pulse');
+                    setTimeout(() => {
+                        liveSupportElement.parentElement.parentElement.classList.remove('animate-pulse');
+                    }, 2000);
+                }
+            }
+            
+            // Update contributors list with staggered animation
+            updateContributorsList();
+            
+            // Update simulation
+            updateSimulation();
+            
+            // Update CTA progress
+            updateCTAProgress();
+            
+            // Store current stats for next animation
+            window.prevStats = stats;
+        }
+
+        function updateProgressCircle(percentage) {
+            const progressCircle = document.querySelector('.progress-circle');
+            if (progressCircle) {
+                const circumference = 2 * Math.PI * 120; // radius = 120
+                const dashArray = (percentage / 100) * circumference;
+                const dashOffset = circumference - dashArray;
+                progressCircle.style.strokeDasharray = `${dashArray} ${dashOffset}`;
+            }
+        }
+
+        function updateContributorsList() {
+            const list = document.getElementById('contributorsList');
+            const existingItems = Array.from(list.children);
+            
+            // Get sorted contributors
+            const sortedContributors = fundraiserData.contributors
+                .sort((a, b) => b.amount - a.amount);
+            
+            // Clear list for fresh animation
+            list.innerHTML = '';
+            
+            sortedContributors.forEach((contributor, index) => {
+                const item = document.createElement('div');
+                item.className = 'flex justify-between items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-all duration-300 cursor-pointer';
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                
+                // Generate avatar color based on name
+                const colors = [
+                    'from-blue-400 to-purple-500',
+                    'from-green-400 to-blue-500',
+                    'from-purple-400 to-pink-500',
+                    'from-yellow-400 to-orange-500',
+                    'from-red-400 to-pink-500',
+                    'from-indigo-400 to-purple-500'
+                ];
+                const colorIndex = contributor.name.charCodeAt(0) % colors.length;
+                
+                item.innerHTML = `
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-br ${colors[colorIndex]} rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg">
+                            ${contributor.name.charAt(0).toUpperCase()}
+                        </div>
+                        <div>
+                            <span class="font-semibold text-gray-800 block">${contributor.name}</span>
+                            <span class="text-xs text-gray-500">Contributor #${index + 1}</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="font-bold text-green-600 text-lg">${formatCurrency(contributor.amount)}</span>
+                        <div class="text-xs text-gray-500">
+                            ${((contributor.amount / fundraiserData.target) * 100).toFixed(1)}% of goal
+                        </div>
+                    </div>
+                `;
+                
+                // Add hover effect for contribution details
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px) scale(1.02)';
+                    this.style.boxShadow = '0 8px 25px rgba(0,0,0,0.1)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                    this.style.boxShadow = 'none';
+                });
+                
+                list.appendChild(item);
+                
+                // Staggered animation
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateY(0)';
+                    item.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                }, index * 150);
+            });
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => notification.classList.add('show'), 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => document.body.removeChild(notification), 400);
+            }, 3000);
+        }
+
+        function addContribution() {
+            const nameInput = document.getElementById('donorName');
+            const amountInput = document.getElementById('donorAmount');
+            const button = document.querySelector('button[onclick="addContribution()"]');
+            
+            const name = nameInput.value.trim();
+            const amount = parseInt(amountInput.value) || 0;
+            
+            if (!name || amount <= 0) {
+                showNotification('Please enter a valid name and amount', 'error');
+                nameInput.focus();
+                return;
+            }
+            
+            // Show loading state
+            const originalContent = button.innerHTML;
+            button.innerHTML = '<span class="loading-shimmer w-4 h-4 rounded mr-2 inline-block"></span>Adding...';
+            button.disabled = true;
+            
+            // Simulate processing time for better UX
+            setTimeout(() => {
+                fundraiserData.contributors.push({ name, amount });
+                
+                // Clear inputs
+                nameInput.value = '';
+                amountInput.value = '';
+                
+                // Update display with animation
+                updateDisplay();
+                
+                // Show success state
+                button.innerHTML = '<span class="relative z-10">✅ Added Successfully!</span>';
+                button.classList.add('button-success');
+                
+                showNotification(`${name}'s contribution of ${formatCurrency(amount)} added successfully!`);
+                
+                setTimeout(() => {
+                    button.innerHTML = originalContent;
+                    button.classList.remove('button-success');
+                    button.disabled = false;
+                    nameInput.focus();
+                }, 2000);
+            }, 800);
+        }
+
+        function updateSimulation() {
+            const groupSize = parseInt(document.getElementById('simGroupSize').value) || 57;
+            const contributors = parseInt(document.getElementById('simContributors').value) || 0;
+            const totalAmount = parseInt(document.getElementById('simTotalAmount').value) || 0;
+            
+            const simData = {
+                target: fundraiserData.target,
+                groupSize: groupSize,
+                contributors: Array(contributors).fill().map((_, i) => ({
+                    name: `Contributor ${i + 1}`,
+                    amount: contributors > 0 ? totalAmount / contributors : 0
+                }))
+            };
+            
+            const simStats = calculateStats(simData);
+            const currentStats = calculateStats();
+            
+            // Update simulation display
+            document.getElementById('simProgress').textContent = `${simStats.progress.toFixed(1)}%`;
+            document.getElementById('simProgressBar').style.width = `${Math.min(simStats.progress, 100)}%`;
+            document.getElementById('simRemaining').textContent = formatCurrency(simStats.remaining);
+            document.getElementById('simAverage').textContent = formatCurrency(simStats.averageContribution);
+            document.getElementById('simParticipation').textContent = `${simStats.participationRate.toFixed(1)}%`;
+            document.getElementById('simNeededPerPerson').textContent = formatCurrency(simStats.neededPerPerson);
+            
+            // Update comparison
+            updateComparison(currentStats, simStats);
+        }
+
+        function updateComparison(current, simulation) {
+            const comparison = document.getElementById('comparisonResults');
+            comparison.innerHTML = '';
+            
+            const comparisons = [
+                {
+                    label: 'Progress',
+                    current: `${current.progress.toFixed(1)}%`,
+                    sim: `${simulation.progress.toFixed(1)}%`,
+                    diff: simulation.progress - current.progress
+                },
+                {
+                    label: 'Remaining',
+                    current: formatCurrency(current.remaining),
+                    sim: formatCurrency(simulation.remaining),
+                    diff: simulation.remaining - current.remaining
+                },
+                {
+                    label: 'Per Person Needed',
+                    current: formatCurrency(current.neededPerPerson),
+                    sim: formatCurrency(simulation.neededPerPerson),
+                    diff: simulation.neededPerPerson - current.neededPerPerson
+                }
+            ];
+            
+            comparisons.forEach(comp => {
+                const item = document.createElement('div');
+                item.className = 'flex justify-between items-center p-3 bg-gray-50 rounded-lg';
+                
+                const diffColor = comp.diff > 0 ? 'text-red-600' : comp.diff < 0 ? 'text-green-600' : 'text-gray-600';
+                const diffIcon = comp.diff > 0 ? '↗️' : comp.diff < 0 ? '↘️' : '➡️';
+                
+                item.innerHTML = `
+                    <div>
+                        <div class="font-semibold text-gray-800">${comp.label}</div>
+                        <div class="text-sm text-gray-600">Current: ${comp.current}</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold ${diffColor}">${comp.sim}</div>
+                        <div class="text-xs ${diffColor}">${diffIcon} ${comp.diff !== 0 ? (comp.label === 'Progress' ? `${Math.abs(comp.diff).toFixed(1)}%` : formatCurrency(Math.abs(comp.diff))) : 'Same'}</div>
+                    </div>
+                `;
+                
+                comparison.appendChild(item);
+            });
+        }
+
+        function resetSimulation() {
+            const stats = calculateStats();
+            document.getElementById('simGroupSize').value = fundraiserData.groupSize;
+            document.getElementById('simContributors').value = stats.contributorCount;
+            document.getElementById('simTotalAmount').value = stats.totalRaised;
+            updateSimulation();
+        }
+
+        // Initialize display with loading animation
+        function initializeApp() {
+            // Add loading class to main elements
+            const cards = document.querySelectorAll('.card-hover');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                    card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                }, index * 200);
+            });
+            
+            // Initialize data after animation
+            setTimeout(() => {
+                updateDisplay();
+            }, 500);
+        }
+        
+        // Add enter key support for inputs with enhanced feedback
+        document.getElementById('donorName').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                document.getElementById('donorAmount').focus();
+                // Add subtle animation to show field transition
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => this.style.transform = 'scale(1)', 150);
+            }
+        });
+        
+        document.getElementById('donorAmount').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addContribution();
+            }
+        });
+        
+        // Add input validation feedback
+        document.getElementById('donorName').addEventListener('input', function() {
+            if (this.value.trim()) {
+                this.style.borderColor = '#10b981';
+                this.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.1)';
+            } else {
+                this.style.borderColor = '#d1d5db';
+                this.style.boxShadow = 'none';
+            }
+        });
+        
+        document.getElementById('donorAmount').addEventListener('input', function() {
+            const amount = parseInt(this.value) || 0;
+            if (amount > 0) {
+                this.style.borderColor = '#10b981';
+                this.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.1)';
+            } else {
+                this.style.borderColor = '#d1d5db';
+                this.style.boxShadow = 'none';
+            }
+        });
+        
+        // Enhanced CTA functions
+        function scrollToContribution() {
+            // Find the contribution card by looking for the specific heading text
+            const headings = document.querySelectorAll('h2');
+            let contributionCard = null;
+            
+            headings.forEach(heading => {
+                if (heading.textContent.includes('Make a Contribution')) {
+                    contributionCard = heading.closest('.mobile-card');
+                }
+            });
+            
+            if (contributionCard) {
+                contributionCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // Highlight the card briefly
+                contributionCard.style.boxShadow = '0 0 0 4px rgba(34, 197, 94, 0.3)';
+                setTimeout(() => {
+                    contributionCard.style.boxShadow = '';
+                }, 2000);
+                // Focus on name input
+                setTimeout(() => {
+                    document.getElementById('donorName').focus();
+                }, 500);
+            }
+        }
+
+        // Bank account functions
+        function copyToClipboard(text, label) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification(`${label} copied to clipboard!`, 'success');
+            }).catch(() => {
+                showNotification(`Failed to copy ${label.toLowerCase()}`, 'error');
+            });
+        }
+
+        function copyAllBankDetails() {
+            const bankDetails = `Bank: Wema Bank
+Account Number: 0296958106
+Account Name: OLORUNFEMI Ayodele Janet
+
+Support for Bukky Daddy's Burial
+Target: ₦400,000`;
+            
+            navigator.clipboard.writeText(bankDetails).then(() => {
+                showNotification('All bank details copied to clipboard!', 'success');
+            }).catch(() => {
+                showNotification('Failed to copy bank details', 'error');
+            });
+        }
+
+        function shareBankDetails() {
+            const bankDetails = `🏦 Bank Details for Bukky Daddy's Burial Support
+
+Bank: Wema Bank
+Account Number: 0296958106
+Account Name: OLORUNFEMI Ayodele Janet
+
+Target: ₦400,000
+Current Progress: ${calculateStats().progress.toFixed(1)}%
+
+Every contribution matters! 🙏`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Bank Details - Bukky Daddy\'s Burial Support',
+                    text: bankDetails
+                }).catch(console.error);
+            } else {
+                navigator.clipboard.writeText(bankDetails).then(() => {
+                    showNotification('Bank details copied for sharing!', 'success');
+                }).catch(() => {
+                    showNotification('Unable to share bank details', 'error');
+                });
+            }
+        }
+
+        function selectAmount(amount) {
+            document.getElementById('donorAmount').value = amount;
+            
+            // Visual feedback for selected amount
+            document.querySelectorAll('.amount-btn').forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-green-500', 'bg-green-100');
+            });
+            
+            event.target.classList.add('ring-2', 'ring-green-500', 'bg-green-100');
+            
+            // Update input styling
+            const amountInput = document.getElementById('donorAmount');
+            amountInput.style.borderColor = '#10b981';
+            amountInput.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.2)';
+            
+            showNotification(`Amount ${formatCurrency(amount)} selected!`, 'success');
+        }
+
+        function shareTracker() {
+            const stats = calculateStats();
+            const shareTitle = 'Support for Bukky Daddy\'s Burial';
+            const shareText = `🙏 Help us reach our goal of ₦400,000 for Bukky Daddy's burial.
+
+📊 Current Progress: ${stats.progress.toFixed(1)}% (${formatCurrency(stats.totalRaised)} raised)
+🎯 Remaining: ${formatCurrency(stats.remaining)}
+👥 ${stats.contributorCount} contributors so far
+
+Every contribution matters! Join us in honoring Bukky Daddy's memory.
+
+Bank Details:
+🏦 Wema Bank
+💳 0296958106
+👤 OLORUNFEMI Ayodele Janet`;
+
+            // Show preview of what will be shared
+            const previewModal = document.createElement('div');
+            previewModal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4';
+            previewModal.innerHTML = `
+                <div class="bg-white rounded-2xl p-6 max-w-lg w-full animate-bounce-in max-h-[90vh] overflow-y-auto">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="text-2xl mr-2">📤</span>
+                        Share This Tracker
+                    </h3>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-gray-700 mb-2">Preview of shared message:</h4>
+                        <div class="bg-gray-50 p-4 rounded-lg border-l-4 border-blue-500 text-sm whitespace-pre-line font-mono">
+${shareText}
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <button onclick="doNativeShare('${shareTitle}', \`${shareText.replace(/`/g, '\\`')}\`)" 
+                                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition-all flex items-center justify-center space-x-2 touch-target">
+                            <span class="text-lg flex-shrink-0">📱</span>
+                            <span class="text-center leading-tight">Share via Apps<br><span class="text-xs opacity-90">(WhatsApp, SMS, etc.)</span></span>
+                        </button>
+                        
+                        <button onclick="copyShareText(\`${shareText.replace(/`/g, '\\`')}\`)" 
+                                class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-xl transition-all flex items-center justify-center space-x-2">
+                            <span>📋</span>
+                            <span>Copy to Clipboard</span>
+                        </button>
+                        
+                        <button onclick="shareViaEmail('${shareTitle}', \`${shareText.replace(/`/g, '\\`')}\`)" 
+                                class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-xl transition-all flex items-center justify-center space-x-2">
+                            <span>📧</span>
+                            <span>Share via Email</span>
+                        </button>
+                        
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                            <div class="flex items-start space-x-2">
+                                <span class="text-yellow-600 text-lg">💡</span>
+                                <div class="text-sm text-yellow-800">
+                                    <strong>How it works:</strong> Choose your preferred sharing method above. The message includes current progress, bank details, and encourages others to contribute.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="this.closest('.fixed').remove()" 
+                            class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-xl transition-all mt-4">
+                        Close
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(previewModal);
+            
+            // Close on backdrop click
+            previewModal.addEventListener('click', (e) => {
+                if (e.target === previewModal) {
+                    previewModal.remove();
+                }
+            });
+        }
+
+        function doNativeShare(title, text) {
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    text: text
+                }).then(() => {
+                    showNotification('Shared successfully!', 'success');
+                    document.querySelector('.fixed').remove();
+                }).catch((error) => {
+                    if (error.name !== 'AbortError') {
+                        showNotification('Share cancelled or failed', 'error');
+                    }
+                });
+            } else {
+                // Fallback: copy to clipboard
+                copyShareText(text);
+            }
+        }
+
+        function copyShareText(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification('Message copied to clipboard! You can now paste it anywhere.', 'success');
+                document.querySelector('.fixed').remove();
+            }).catch(() => {
+                showNotification('Failed to copy message', 'error');
+            });
+        }
+
+        function shareViaEmail(title, text) {
+            const emailSubject = encodeURIComponent(title);
+            const emailBody = encodeURIComponent(text);
+            const emailUrl = `mailto:?subject=${emailSubject}&body=${emailBody}`;
+            
+            window.open(emailUrl, '_blank');
+            showNotification('Email app opened with pre-filled message!', 'success');
+            document.querySelector('.fixed').remove();
+        }
+
+        function showPrayerMessage() {
+            const prayerModal = document.createElement('div');
+            prayerModal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4';
+            prayerModal.innerHTML = `
+                <div class="bg-white rounded-2xl p-6 max-w-2xl w-full animate-bounce-in max-h-[90vh] overflow-y-auto">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4 shadow-lg">
+                            🙏
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Send Prayers & Emotional Support</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Your heartfelt words can bring immense comfort to Bukky Daddy's family during this difficult time. Choose the type of support you'd like to offer:
+                        </p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl border border-purple-200 hover:shadow-lg transition-all cursor-pointer group" onclick="sendPrayerMessage('prayer')">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">
+                                    🙏
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-purple-800">Prayer Messages</h4>
+                                    <p class="text-sm text-purple-600">Spiritual comfort & blessings</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-purple-700 leading-relaxed">
+                                Share prayers for peace, strength, and divine comfort during this time of loss.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-xl border border-blue-200 hover:shadow-lg transition-all cursor-pointer group" onclick="sendPrayerMessage('comfort')">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">
+                                    💙
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-blue-800">Words of Comfort</h4>
+                                    <p class="text-sm text-blue-600">Heartfelt condolences</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-blue-700 leading-relaxed">
+                                Express sympathy and let the family know they're in your thoughts.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-xl border border-green-200 hover:shadow-lg transition-all cursor-pointer group" onclick="sendPrayerMessage('memory')">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">
+                                    🌟
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-green-800">Memory Sharing</h4>
+                                    <p class="text-sm text-green-600">Celebrate his life & legacy</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-green-700 leading-relaxed">
+                                Share beautiful memories and honor Bukky Daddy's lasting impact.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-xl border border-orange-200 hover:shadow-lg transition-all cursor-pointer group" onclick="sendPrayerMessage('support')">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">
+                                    🤗
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-orange-800">Emotional Support</h4>
+                                    <p class="text-sm text-orange-600">Practical help & community</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-orange-700 leading-relaxed">
+                                Offer practical assistance and remind them of community support.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-pink-50 to-pink-100 p-4 rounded-xl border border-pink-200 hover:shadow-lg transition-all cursor-pointer group" onclick="sendPrayerMessage('strength')">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <div class="w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">
+                                    💪
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-pink-800">Strength & Hope</h4>
+                                    <p class="text-sm text-pink-600">Encouragement for healing</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-pink-700 leading-relaxed">
+                                Inspire resilience and hope for brighter days ahead.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 p-4 rounded-xl border border-indigo-200 hover:shadow-lg transition-all cursor-pointer group" onclick="sendPrayerMessage('gratitude')">
+                            <div class="flex items-center space-x-3 mb-3">
+                                <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">
+                                    🙌
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-indigo-800">Gratitude & Thanks</h4>
+                                    <p class="text-sm text-indigo-600">Appreciation for his life</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-indigo-700 leading-relaxed">
+                                Express gratitude for the gift of knowing Bukky Daddy.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-purple-50 via-blue-50 to-pink-50 p-6 rounded-2xl border border-purple-200 mb-6">
+                        <h4 class="font-bold text-gray-800 mb-4 flex items-center text-lg">
+                            <span class="mr-3 text-2xl">💝</span>
+                            The Power of Emotional Support
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-3">
+                                <div class="flex items-start space-x-3">
+                                    <span class="text-green-500 text-lg">✨</span>
+                                    <div>
+                                        <div class="font-semibold text-gray-800 text-sm">Provides Comfort</div>
+                                        <div class="text-xs text-gray-600">Your words can ease the pain of grief</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <span class="text-blue-500 text-lg">🤝</span>
+                                    <div>
+                                        <div class="font-semibold text-gray-800 text-sm">Shows Unity</div>
+                                        <div class="text-xs text-gray-600">Reminds them they're not alone</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <span class="text-purple-500 text-lg">🌈</span>
+                                    <div>
+                                        <div class="font-semibold text-gray-800 text-sm">Honors Memory</div>
+                                        <div class="text-xs text-gray-600">Celebrates Bukky Daddy's legacy</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex items-start space-x-3">
+                                    <span class="text-orange-500 text-lg">💪</span>
+                                    <div>
+                                        <div class="font-semibold text-gray-800 text-sm">Builds Strength</div>
+                                        <div class="text-xs text-gray-600">Helps family find courage to heal</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <span class="text-pink-500 text-lg">❤️</span>
+                                    <div>
+                                        <div class="font-semibold text-gray-800 text-sm">Spreads Love</div>
+                                        <div class="text-xs text-gray-600">Creates a circle of caring support</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-3">
+                                    <span class="text-indigo-500 text-lg">🌟</span>
+                                    <div>
+                                        <div class="font-semibold text-gray-800 text-sm">Inspires Hope</div>
+                                        <div class="text-xs text-gray-600">Lights the path toward healing</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-6">
+                        <div class="flex items-start space-x-3">
+                            <span class="text-yellow-600 text-2xl">💡</span>
+                            <div>
+                                <h5 class="font-bold text-yellow-800 mb-2">How It Works</h5>
+                                <div class="text-sm text-yellow-700 space-y-1">
+                                    <p>• Choose the type of support message you'd like to send</p>
+                                    <p>• We'll provide thoughtful, pre-written messages you can personalize</p>
+                                    <p>• Share directly via WhatsApp, SMS, email, or copy to clipboard</p>
+                                    <p>• Your message will bring comfort to the family during this difficult time</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-3">
+                        <button onclick="showSupportStats()" 
+                                class="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-4 rounded-xl transition-all flex items-center justify-center space-x-2">
+                            <span>📊</span>
+                            <span>Support Impact</span>
+                        </button>
+                        <button onclick="this.closest('.fixed').remove()" 
+                                class="flex-1 bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-xl transition-all">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(prayerModal);
+            
+            // Close on backdrop click
+            prayerModal.addEventListener('click', (e) => {
+                if (e.target === prayerModal) {
+                    prayerModal.remove();
+                }
+            });
+        }
+
+        function sendPrayerMessage(type) {
+            const messages = {
+                prayer: [
+                    "🙏 Dear Family,\n\nI'm keeping you all in my prayers during this difficult time. May God grant you strength, comfort, and peace as you honor Bukky Daddy's memory. His legacy of love and kindness will live on in all of us.\n\nWith deepest sympathy and prayers,\n[Your Name]",
+                    "🙏 Praying for God's comfort to surround your family during this time of loss. May you find peace in knowing that Bukky Daddy's spirit lives on in the hearts of all who knew and loved him.\n\nMay the Lord bless and keep you,\n[Your Name]",
+                    "🙏 Lifting your family up in prayer as you navigate this difficult journey. May God's love and grace provide you with the strength you need, and may Bukky Daddy rest in eternal peace.\n\nPraying for you all,\n[Your Name]",
+                    "🙏 May the Almighty grant Bukky Daddy eternal rest and give your family the fortitude to bear this irreplaceable loss. I pray that his soul finds perfect peace and that you find comfort in the beautiful memories you shared.\n\nIn prayers and solidarity,\n[Your Name]",
+                    "🙏 Sending heartfelt prayers for your family during this time of mourning. May God's infinite mercy embrace Bukky Daddy's soul, and may His divine comfort fill the void in your hearts with peace and healing.\n\nWith continuous prayers,\n[Your Name]"
+                ],
+                comfort: [
+                    "💙 Dear Family,\n\nMy heart goes out to you during this incredibly difficult time. Please know that you are surrounded by love and support from all of us. Bukky Daddy touched so many lives, and his memory will forever be a blessing.\n\nSending you all my love and comfort,\n[Your Name]",
+                    "💙 I want you to know that you're not alone in your grief. The entire community is here to support you through this difficult time. Bukky Daddy's warmth and kindness will be deeply missed but never forgotten.\n\nWith love and sympathy,\n[Your Name]",
+                    "💙 Words cannot express how sorry I am for your loss. Please take comfort in knowing that Bukky Daddy's love and the beautiful memories you shared will always be with you. You have our unwavering support.\n\nWith heartfelt condolences,\n[Your Name]",
+                    "💙 During this season of sorrow, please know that you are held in the gentle embrace of our thoughts and care. Bukky Daddy's gentle spirit and loving nature have left an indelible mark on all our hearts.\n\nWith deepest sympathy,\n[Your Name]",
+                    "💙 Though words feel inadequate at a time like this, please know that your pain is shared by all who knew and loved Bukky Daddy. May the love surrounding you provide some measure of comfort in the days ahead.\n\nWith tender compassion,\n[Your Name]"
+                ],
+                memory: [
+                    "🌟 Dear Family,\n\nI have such wonderful memories of Bukky Daddy's [kindness/wisdom/humor - please personalize]. He had a special way of making everyone feel valued and loved. These precious memories will forever be a source of comfort and joy.\n\nThank you for sharing him with all of us,\n[Your Name]",
+                    "🌟 Bukky Daddy's legacy of love and generosity will live on in all the lives he touched. I'll always remember [share a specific memory or quality]. His spirit will continue to inspire us all.\n\nWith fond memories and sympathy,\n[Your Name]",
+                    "🌟 The impact Bukky Daddy had on our community is immeasurable. His [kindness/wisdom/joy] brought light to so many lives. These beautiful memories will be a lasting tribute to the wonderful person he was.\n\nCelebrating his life with you,\n[Your Name]",
+                    "🌟 I will forever cherish the memories of Bukky Daddy's infectious laughter and the way he could brighten any room he entered. His stories, his wisdom, and his generous heart created moments that will live on in our hearts forever.\n\nHonoring his beautiful legacy,\n[Your Name]",
+                    "🌟 Bukky Daddy had this remarkable gift of making everyone feel like family. Whether it was his encouraging words, his helping hand, or simply his presence, he made the world a better place just by being in it.\n\nWith treasured memories,\n[Your Name]"
+                ],
+                support: [
+                    "🤗 Dear Family,\n\nPlease know that our entire community stands with you during this time. If you need anything at all - whether it's help with arrangements, meals, or just someone to talk to - please don't hesitate to reach out. We're here for you.\n\nWith love and support,\n[Your Name]",
+                    "🤗 I want you to know that you have a whole network of people who care about you and are ready to help in any way we can. Don't hesitate to lean on us during this difficult time. We're honored to support you as you honor Bukky Daddy.\n\nAlways here for you,\n[Your Name]",
+                    "🤗 Your family has given so much to our community, and now it's our turn to give back to you. Please let us know how we can help - whether it's practical support or just being there to listen. You are deeply loved and supported.\n\nWith unwavering support,\n[Your Name]",
+                    "🤗 In times like these, community means everything. Whether you need help with daily tasks, someone to run errands, or simply a shoulder to lean on, please know that we are here. Your burden is our burden, and we'll carry it together.\n\nWith practical love and support,\n[Your Name]",
+                    "🤗 Please don't carry this weight alone. Our community is ready to step in wherever needed - from meal preparation to childcare, from transportation to simply being present. Let us be your strength when you need it most.\n\nStanding with you always,\n[Your Name]"
+                ],
+                strength: [
+                    "💪 Dear Family,\n\nWhile this loss feels overwhelming now, I want you to know that you have incredible strength within you. Bukky Daddy's love and the beautiful life he lived will continue to be a source of courage and resilience for you all.\n\nBelieving in your strength,\n[Your Name]",
+                    "💪 Though the path ahead seems difficult, please remember that you don't walk it alone. Each day will bring small moments of healing, and gradually, the pain will transform into cherished memories and renewed hope.\n\nWith faith in your resilience,\n[Your Name]",
+                    "💪 Bukky Daddy raised a strong family, and that strength will carry you through this difficult time. Take it one day at a time, one breath at a time. Healing is not linear, but it is possible, and brighter days will come.\n\nEncouraging your journey forward,\n[Your Name]",
+                    "💪 In the midst of this darkness, please hold onto the truth that love never dies. Bukky Daddy's love lives on in each of you, giving you the power to heal, to hope, and to honor his memory by living fully.\n\nInspiring your courage,\n[Your Name]",
+                    "💪 You are stronger than you know, braver than you feel, and more loved than you can imagine. Bukky Daddy's spirit lives on through your strength, and that strength will guide you toward healing and peace.\n\nCelebrating your resilience,\n[Your Name]"
+                ],
+                gratitude: [
+                    "🙌 Dear Family,\n\nThank you for sharing Bukky Daddy with all of us. His life was a gift that enriched our community in countless ways. We are forever grateful for the joy, wisdom, and love he brought into our lives.\n\nWith heartfelt gratitude,\n[Your Name]",
+                    "🙌 I feel so blessed to have known Bukky Daddy and to have been touched by his kindness. Thank you for raising such a wonderful person who made the world brighter for all of us. His legacy of love will continue through you.\n\nGrateful for his life,\n[Your Name]",
+                    "🙌 What a privilege it was to know Bukky Daddy and to witness his generous heart in action. Thank you for sharing him with our community. His impact on our lives is immeasurable, and his memory will be treasured always.\n\nWith deep appreciation,\n[Your Name]",
+                    "🙌 Bukky Daddy's life was a masterpiece of love, kindness, and service. Thank you for being the family that shaped such an extraordinary person. His influence will ripple through generations, touching lives in ways we may never fully know.\n\nHonoring his beautiful impact,\n[Your Name]",
+                    "🙌 We are all richer for having known Bukky Daddy. His laughter, his wisdom, his caring heart - these gifts he shared so freely have left permanent imprints on our souls. Thank you for the blessing of his presence in our lives.\n\nWith endless gratitude,\n[Your Name]"
+                ]
+            };
+
+            const selectedMessages = messages[type];
+            const randomMessage = selectedMessages[Math.floor(Math.random() * selectedMessages.length)];
+            
+            // Set the current message type for tracking
+            window.currentMessageType = type;
+            
+            // Create message preview modal
+            const messageModal = document.createElement('div');
+            messageModal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4';
+            messageModal.innerHTML = `
+                <div class="bg-white rounded-2xl p-6 max-w-lg w-full animate-bounce-in max-h-[90vh] overflow-y-auto">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="text-2xl mr-2">💌</span>
+                        Your Message of Support
+                    </h3>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-semibold text-gray-700 mb-3">Preview your message:</h4>
+                        <div class="bg-gray-50 p-4 rounded-lg border-l-4 border-purple-500 text-sm whitespace-pre-line">
+${randomMessage}
+                        </div>
+                        
+                        <div class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                            <div class="flex items-start space-x-2">
+                                <span class="text-blue-600 text-lg">✏️</span>
+                                <div class="text-sm text-blue-800">
+                                    <strong>Personalize it:</strong> Feel free to edit this message and add your own personal touch before sending.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3 mb-4">
+                        <button onclick="shareMessage(\`${randomMessage.replace(/`/g, '\\`')}\`)" 
+                                class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded-xl transition-all flex items-center justify-center space-x-2 touch-target">
+                            <span>📱</span>
+                            <span>Send via WhatsApp/SMS</span>
+                        </button>
+                        
+                        <button onclick="copyMessage(\`${randomMessage.replace(/`/g, '\\`')}\`)" 
+                                class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-xl transition-all flex items-center justify-center space-x-2">
+                            <span>📋</span>
+                            <span>Copy to Clipboard</span>
+                        </button>
+                        
+                        <button onclick="emailMessage(\`${randomMessage.replace(/`/g, '\\`')}\`)" 
+                                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition-all flex items-center justify-center space-x-2">
+                            <span>📧</span>
+                            <span>Send via Email</span>
+                        </button>
+                        
+                        <button onclick="generateNewMessage('${type}')" 
+                                class="w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 px-4 rounded-xl transition-all flex items-center justify-center space-x-2">
+                            <span>🔄</span>
+                            <span>Generate Different Message</span>
+                        </button>
+                    </div>
+                    
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-3 mb-4">
+                        <div class="flex items-start space-x-2">
+                            <span class="text-green-600 text-lg">💚</span>
+                            <div class="text-sm text-green-800">
+                                <strong>Thank you</strong> for taking the time to offer comfort and support to the family. Your kindness means more than you know.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="this.closest('.fixed').remove()" 
+                            class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-xl transition-all">
+                        Close
+                    </button>
+                </div>
+            `;
+            
+            // Close the prayer modal first
+            document.querySelector('.fixed').remove();
+            
+            // Add the message modal
+            document.body.appendChild(messageModal);
+            
+            // Close on backdrop click
+            messageModal.addEventListener('click', (e) => {
+                if (e.target === messageModal) {
+                    messageModal.remove();
+                }
+            });
+        }
+
+        function shareMessage(message) {
+            // Track the message type from the current context
+            const currentMessageType = window.currentMessageType || 'support';
+            trackSupportMessage(currentMessageType);
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Message of Support for Bukky Daddy\'s Family',
+                    text: message
+                }).then(() => {
+                    showNotification('Message shared successfully! Your support has been recorded. 💜', 'success');
+                    document.querySelector('.fixed').remove();
+                }).catch((error) => {
+                    if (error.name !== 'AbortError') {
+                        copyMessage(message, false); // Don't track again
+                    }
+                });
+            } else {
+                copyMessage(message, false); // Don't track again since we already tracked above
+            }
+        }
+
+        function copyMessage(message, shouldTrack = true) {
+            if (shouldTrack) {
+                const currentMessageType = window.currentMessageType || 'support';
+                trackSupportMessage(currentMessageType);
+            }
+            
+            navigator.clipboard.writeText(message).then(() => {
+                showNotification('Message copied to clipboard! Your support has been recorded. You can now paste it in any messaging app. 💜', 'success');
+                document.querySelector('.fixed').remove();
+            }).catch(() => {
+                showNotification('Failed to copy message', 'error');
+            });
+        }
+
+        function emailMessage(message) {
+            const currentMessageType = window.currentMessageType || 'support';
+            trackSupportMessage(currentMessageType);
+            
+            const emailSubject = encodeURIComponent('Message of Support for Bukky Daddy\'s Family');
+            const emailBody = encodeURIComponent(message);
+            const emailUrl = `mailto:?subject=${emailSubject}&body=${emailBody}`;
+            
+            window.open(emailUrl, '_blank');
+            showNotification('Email app opened with your message! Your support has been recorded. 💜', 'success');
+            document.querySelector('.fixed').remove();
+        }
+
+        function generateNewMessage(type) {
+            document.querySelector('.fixed').remove();
+            sendPrayerMessage(type);
+        }
+
+        function quickContribute(amount) {
+            document.getElementById('donorAmount').value = amount;
+            scrollToContribution();
+            // Add visual feedback
+            const amountInput = document.getElementById('donorAmount');
+            amountInput.style.borderColor = '#10b981';
+            amountInput.style.boxShadow = '0 0 0 3px rgba(16, 185, 129, 0.2)';
+            showNotification(`Amount set to ${formatCurrency(amount)}. Please enter your name to contribute.`, 'success');
+        }
+
+        function showContactInfo() {
+            const contactModal = document.createElement('div');
+            contactModal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4';
+            contactModal.innerHTML = `
+                <div class="bg-white rounded-2xl p-6 max-w-md w-full animate-bounce-in">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="text-2xl mr-2">📞</span>
+                        Contact Organizers
+                    </h3>
+                    <div class="space-y-4 mb-6">
+                        <div class="p-4 bg-blue-50 rounded-xl border-l-4 border-blue-500">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="font-semibold text-blue-800">Esther Adediran</div>
+                                <button onclick="copyToClipboard('+', 'Phone number')" 
+                                        class="bg-blue-100 hover:bg-blue-200 text-blue-700 p-1 rounded-lg transition-all hover:scale-105">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="text-sm text-blue-600 font-mono">+</div>
+                            <div class="text-xs text-blue-500 mt-1">Primary Organizer</div>
+                        </div>
+                        
+                        <div class="p-4 bg-green-50 rounded-xl border-l-4 border-green-500">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="font-semibold text-green-800">Janet</div>
+                                <button onclick="copyToClipboard('+', 'Phone number')" 
+                                        class="bg-green-100 hover:bg-green-200 text-green-700 p-1 rounded-lg transition-all hover:scale-105">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="text-sm text-green-600 font-mono">+</div>
+                            <div class="text-xs text-green-500 mt-1">Account Holder & Organizer</div>
+                        </div>
+                        
+                        <div class="p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                            <div class="flex items-start space-x-2">
+                                <span class="text-yellow-600 text-lg">💡</span>
+                                <div class="text-sm text-yellow-800">
+                                    <strong>Available for:</strong> Questions about burial arrangements, contribution confirmations, and general assistance.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-3 mb-4">
+                        <button onclick="contactViaWhatsApp()" 
+                                class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-xl transition-all flex items-center justify-center space-x-2">
+                            <span>📱</span>
+                            <span>Contact via WhatsApp</span>
+                        </button>
+                        
+                        <button onclick="copyAllContacts()" 
+                                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition-all flex items-center justify-center space-x-2">
+                            <span>📋</span>
+                            <span>Copy All Contact Details</span>
+                        </button>
+                    </div>
+                    
+                    <button onclick="this.closest('.fixed').remove()" 
+                            class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-xl transition-all">
+                        Close
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(contactModal);
+            
+            // Close on backdrop click
+            contactModal.addEventListener('click', (e) => {
+                if (e.target === contactModal) {
+                    contactModal.remove();
+                }
+            });
+        }
+
+        function contactViaWhatsApp() {
+            const contactModal = document.createElement('div');
+            contactModal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4';
+            contactModal.innerHTML = `
+                <div class="bg-white rounded-2xl p-6 max-w-md w-full animate-bounce-in">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="text-2xl mr-2">📱</span>
+                        Contact via WhatsApp
+                    </h3>
+                    <div class="space-y-3 mb-6">
+                        <button onclick="openWhatsApp('+')" 
+                                class="w-full p-4 bg-green-50 hover:bg-green-100 border-2 border-green-200 rounded-xl transition-all flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white text-xl">
+                                E
+                            </div>
+                            <div class="flex-1 text-left">
+                                <div class="font-semibold text-green-800">Esther Adediran</div>
+                                <div class="text-sm text-green-600">Primary Organizer</div>
+                            </div>
+                            <div class="text-green-600">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </button>
+                        
+                        <button onclick="openWhatsApp('+')" 
+                                class="w-full p-4 bg-blue-50 hover:bg-blue-100 border-2 border-blue-200 rounded-xl transition-all flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white text-xl">
+                                J
+                            </div>
+                            <div class="flex-1 text-left">
+                                <div class="font-semibold text-blue-800">Janet</div>
+                                <div class="text-sm text-blue-600">Account Holder & Organizer</div>
+                            </div>
+                            <div class="text-blue-600">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <button onclick="this.closest('.fixed').remove()" 
+                            class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-xl transition-all">
+                        Back
+                    </button>
+                </div>
+            `;
+            
+            // Close the previous modal
+            document.querySelector('.fixed').remove();
+            document.body.appendChild(contactModal);
+            
+            // Close on backdrop click
+            contactModal.addEventListener('click', (e) => {
+                if (e.target === contactModal) {
+                    contactModal.remove();
+                }
+            });
+        }
+
+        function openWhatsApp(phoneNumber) {
+            const message = encodeURIComponent(`Hello! I'm reaching out regarding Bukky Daddy's burial support fund. I have a question about the arrangements.
+
+Current Progress: ${calculateStats().progress.toFixed(1)}% (${formatCurrency(calculateStats().totalRaised)} raised)
+Target: ₦400,000
+
+Thank you for organizing this important cause.`);
+            
+            const whatsappUrl = `https://wa.me/${phoneNumber.replace(/[^0-9]/g, '')}?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+            
+            showNotification('Opening WhatsApp...', 'success');
+            document.querySelector('.fixed').remove();
+        }
+
+        function copyAllContacts() {
+            const contactDetails = `📞 Bukky Daddy's Burial - Contact Organizers
+
+👤 Esther Adediran (Primary Organizer)
+📱 +
+
+👤 Janet (Account Holder & Organizer)  
+📱 +
+
+Available for questions about burial arrangements, contribution confirmations, and general assistance.
+
+🏦 Bank Details:
+Account: 0296958106
+Bank: Wema Bank
+Name: OLORUNFEMI Ayodele Janet`;
+            
+            navigator.clipboard.writeText(contactDetails).then(() => {
+                showNotification('All contact details copied to clipboard!', 'success');
+                document.querySelector('.fixed').remove();
+            }).catch(() => {
+                showNotification('Failed to copy contact details', 'error');
+            });
+        }
+
+        function showBurialDetails() {
+            const detailsModal = document.createElement('div');
+            detailsModal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4';
+            detailsModal.innerHTML = `
+                <div class="bg-white rounded-2xl p-6 max-w-md w-full animate-bounce-in">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                        <span class="text-2xl mr-2">⛪</span>
+                        Burial Details
+                    </h3>
+                    <div class="space-y-4 mb-6">
+                        <div class="p-4 bg-indigo-50 rounded-lg border-l-4 border-indigo-500">
+                            <div class="font-semibold text-indigo-800 mb-1">Date & Time</div>
+                            <div class="text-sm text-indigo-600">November 28-29, 2024</div>
+                        </div>
+                        <div class="p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
+                            <div class="font-semibold text-green-800 mb-1">Location</div>
+                            <div class="text-sm text-green-600">Abuja, Nigeria</div>
+                        </div>
+                        <div class="p-4 bg-orange-50 rounded-lg border-l-4 border-orange-500">
+                            <div class="font-semibold text-orange-800 mb-1">Target Amount</div>
+                            <div class="text-sm text-orange-600">₦400,000 for burial expenses</div>
+                        </div>
+                        <div class="p-4 bg-purple-50 rounded-lg border-l-4 border-purple-500">
+                            <div class="font-semibold text-purple-800 mb-1">Current Progress</div>
+                            <div class="text-sm text-purple-600">₦114,000 raised (28.5% complete)</div>
+                        </div>
+                    </div>
+                    <button onclick="this.closest('.fixed').remove()" 
+                            class="w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded-xl transition-all">
+                        Close
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(detailsModal);
+            
+            // Close on backdrop click
+            detailsModal.addEventListener('click', (e) => {
+                if (e.target === detailsModal) {
+                    detailsModal.remove();
+                }
+            });
+        }
+
+        // Update CTA progress when main progress changes
+        function updateCTAProgress() {
+            const stats = calculateStats();
+            const ctaProgress = document.getElementById('ctaProgress');
+            const ctaRemaining = document.getElementById('ctaRemaining');
+            
+            if (ctaProgress && ctaRemaining) {
+                ctaProgress.textContent = `${stats.progress.toFixed(1)}%`;
+                ctaRemaining.textContent = formatCurrency(stats.remaining);
+            }
+        }
+
+        // Support tracking system
+        let supportData = {
+            messagesShared: 0,
+            prayersSent: 0,
+            comfortMessagesSent: 0,
+            memoriesShared: 0,
+            supportOffered: 0,
+            strengthMessagesSent: 0,
+            gratitudeExpressed: 0,
+            totalEmotionalSupport: 0
+        };
+
+        function trackSupportMessage(type) {
+            supportData.totalEmotionalSupport++;
+            switch(type) {
+                case 'prayer':
+                    supportData.prayersSent++;
+                    break;
+                case 'comfort':
+                    supportData.comfortMessagesSent++;
+                    break;
+                case 'memory':
+                    supportData.memoriesShared++;
+                    break;
+                case 'support':
+                    supportData.supportOffered++;
+                    break;
+                case 'strength':
+                    supportData.strengthMessagesSent++;
+                    break;
+                case 'gratitude':
+                    supportData.gratitudeExpressed++;
+                    break;
+            }
+            supportData.messagesShared++;
+            
+            // Store in localStorage
+            localStorage.setItem('bukkySupportData', JSON.stringify(supportData));
+        }
+
+        function loadSupportData() {
+            const stored = localStorage.getItem('bukkySupportData');
+            if (stored) {
+                supportData = JSON.parse(stored);
+            }
+        }
+
+        function showSupportStats() {
+            const statsModal = document.createElement('div');
+            statsModal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4';
+            statsModal.innerHTML = `
+                <div class="bg-white rounded-2xl p-6 max-w-lg w-full animate-bounce-in max-h-[90vh] overflow-y-auto">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4 shadow-lg">
+                            📊
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-2">Community Support Impact</h3>
+                        <p class="text-gray-600">
+                            See how our community is coming together to support Bukky Daddy's family
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-xl border border-purple-200">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-2xl">🙏</span>
+                                    <div>
+                                        <div class="font-bold text-purple-800">Prayer Messages</div>
+                                        <div class="text-sm text-purple-600">Spiritual comfort shared</div>
+                                    </div>
+                                </div>
+                                <div class="text-2xl font-bold text-purple-700">${supportData.prayersSent}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-xl border border-blue-200">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-2xl">💙</span>
+                                    <div>
+                                        <div class="font-bold text-blue-800">Comfort Messages</div>
+                                        <div class="text-sm text-blue-600">Words of sympathy sent</div>
+                                    </div>
+                                </div>
+                                <div class="text-2xl font-bold text-blue-700">${supportData.comfortMessagesSent}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-xl border border-green-200">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-2xl">🌟</span>
+                                    <div>
+                                        <div class="font-bold text-green-800">Memories Shared</div>
+                                        <div class="text-sm text-green-600">Beautiful tributes sent</div>
+                                    </div>
+                                </div>
+                                <div class="text-2xl font-bold text-green-700">${supportData.memoriesShared}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-orange-50 to-orange-100 p-4 rounded-xl border border-orange-200">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-2xl">🤗</span>
+                                    <div>
+                                        <div class="font-bold text-orange-800">Support Offered</div>
+                                        <div class="text-sm text-orange-600">Practical help promised</div>
+                                    </div>
+                                </div>
+                                <div class="text-2xl font-bold text-orange-700">${supportData.supportOffered}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-pink-50 to-pink-100 p-4 rounded-xl border border-pink-200">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-2xl">💪</span>
+                                    <div>
+                                        <div class="font-bold text-pink-800">Strength Messages</div>
+                                        <div class="text-sm text-pink-600">Encouragement shared</div>
+                                    </div>
+                                </div>
+                                <div class="text-2xl font-bold text-pink-700">${supportData.strengthMessagesSent}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gradient-to-r from-indigo-50 to-indigo-100 p-4 rounded-xl border border-indigo-200">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <span class="text-2xl">🙌</span>
+                                    <div>
+                                        <div class="font-bold text-indigo-800">Gratitude Expressed</div>
+                                        <div class="text-sm text-indigo-600">Appreciation messages</div>
+                                    </div>
+                                </div>
+                                <div class="text-2xl font-bold text-indigo-700">${supportData.gratitudeExpressed}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-2xl border border-yellow-200 mb-6">
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-orange-600 mb-2">${supportData.totalEmotionalSupport}</div>
+                            <div class="text-lg font-semibold text-orange-800 mb-2">Total Messages of Support</div>
+                            <div class="text-sm text-orange-700">
+                                Every message brings comfort and shows the family they're not alone
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-4 mb-6">
+                        <div class="flex items-start space-x-3">
+                            <span class="text-green-600 text-2xl">💚</span>
+                            <div>
+                                <h5 class="font-bold text-green-800 mb-2">Community Impact</h5>
+                                <div class="text-sm text-green-700 space-y-1">
+                                    <p>• Each message represents genuine care and compassion</p>
+                                    <p>• Your support helps the family feel less alone in their grief</p>
+                                    <p>• Together, we're creating a network of love and comfort</p>
+                                    <p>• These acts of kindness honor Bukky Daddy's memory beautifully</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="this.closest('.fixed').remove()" 
+                            class="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-bold py-3 px-4 rounded-xl transition-all">
+                        Close
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(statsModal);
+            
+            // Close on backdrop click
+            statsModal.addEventListener('click', (e) => {
+                if (e.target === statsModal) {
+                    statsModal.remove();
+                }
+            });
+        }
+
+        // Initialize app
+        loadSupportData();
+        initializeApp();
+
+        // Animate progress circle on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const progressCircle = document.querySelector('.progress-circle');
+            if (progressCircle) {
+                const targetPercentage = 28.5;
+                const circumference = 2 * Math.PI * 120; // radius = 120
+                const dashArray = (targetPercentage / 100) * circumference;
+                const dashOffset = circumference - dashArray;
+                
+                setTimeout(() => {
+                    progressCircle.style.strokeDasharray = `${dashArray} ${dashOffset}`;
+                }, 500);
+            }
+            
+            // Add hover effects to milestones
+            document.querySelectorAll('.milestone').forEach(milestone => {
+                milestone.addEventListener('mouseenter', function() {
+                    if (!this.classList.contains('reached') && !this.classList.contains('current')) {
+                        this.style.transform = 'scale(1.02)';
+                    }
+                });
+                
+                milestone.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'994c5f26e56316d0',t:'MTc2MTUwNzA2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
