@@ -1,11 +1,52 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support for Bukky Daddy's Burial</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support for Bukky Daddy's Burial</title><!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Bukky Support">
+  <meta name="msapplication-TileColor" content="#4f46e5">
+  <meta name="msapplication-config" content="/browserconfig.xml"><!-- PWA Icons -->
+  <link rel="icon" type="image/png" sizes="32x32" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%234f46e5'/><text y='70' font-size='60' text-anchor='middle' x='50' fill='white'>💰</text></svg>">
+  <link rel="icon" type="image/png" sizes="16x16" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%234f46e5'/><text y='70' font-size='60' text-anchor='middle' x='50' fill='white'>💰</text></svg>">
+  <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' rx='40' fill='%234f46e5'/><text y='125' font-size='100' text-anchor='middle' x='90' fill='white'>💰</text></svg>">
+  <link rel="apple-touch-icon" sizes="152x152" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 152 152'><rect width='152' height='152' rx='34' fill='%234f46e5'/><text y='105' font-size='85' text-anchor='middle' x='76' fill='white'>💰</text></svg>">
+  <link rel="apple-touch-icon" sizes="120x120" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><rect width='120' height='120' rx='27' fill='%234f46e5'/><text y='85' font-size='70' text-anchor='middle' x='60' fill='white'>💰</text></svg>"><!-- PWA Manifest -->
+  <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIlN1cHBvcnQgZm9yIEJ1a2t5IERhZGR5J3MgQnVyaWFsIiwKICAic2hvcnRfbmFtZSI6ICJCdWtreSBTdXBwb3J0IiwKICAiZGVzY3JpcHRpb24iOiAiSW50ZXJhY3RpdmUgdHJhY2tlciBmb3IgQnVra3kgRGFkZHkncyBidXJpYWwgc3VwcG9ydCBmdW5kIiwKICAic3RhcnRfdXJsIjogIi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiNmOWZhZmIiLAogICJ0aGVtZV9jb2xvciI6ICIjNGY0NmU1IiwKICAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiLAogICJjYXRlZ29yaWVzIjogWyJzb2NpYWwiLCAiZmluYW5jZSIsICJjb21tdW5pdHkiXSwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLDxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgMTkyIDE5Mic+PHJlY3Qgd2lkdGg9JzE5MicgaGVpZ2h0PScxOTInIHJ4PSc0MycgZmlsbD0nJTIzNGY0NmU1Jy8+PHRleHQgeT0nMTM1JyBmb250LXNpemU9JzEwNScgdGV4dC1hbmNob3I9J21pZGRsZScgeD0nOTYnIGZpbGw9J3doaXRlJz7wn5KwPC90ZXh0Pjwvc3ZnPiIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIsCiAgICAgICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLDxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgNTEyIDUxMic+PHJlY3Qgd2lkdGg9JzUxMicgaGVpZ2h0PSc1MTInIHJ4PSc5NicgZmlsbD0nJTIzNGY0NmU1Jy8+PHRleHQgeT0nMzYwJyBmb250LXNpemU9JzI4MCcgdGV4dC1hbmNob3I9J21pZGRsZScgeD0nMjU2JyBmaWxsPSd3aGl0ZSc+8J+SsA==PC90ZXh0Pjwvc3ZnPiIsCiAgICAgICJzaXplcyI6ICI1MTJ4NTEyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIsCiAgICAgICJwdXJwb3NlIjogImFueSBtYXNrYWJsZSIKICAgIH0KICBdLAogICJzaG9ydGN1dHMiOiBbCiAgICB7CiAgICAgICJuYW1lIjogIkFkZCBDb250cmlidXRpb24iLAogICAgICAic2hvcnRfbmFtZSI6ICJDb250cmlidXRlIiwKICAgICAgInVybCI6ICIvP2FjdGlvbj1jb250cmlidXRlIiwKICAgICAgImljb25zIjogWwogICAgICAgIHsKICAgICAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLDxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgOTYgOTYnPjxyZWN0IHdpZHRoPSc5NicgaGVpZ2h0PSc5Nicgcng9JzIwJyBmaWxsPSclMjMxMGI5ODEnLz48dGV4dCB5PSc2OCcgZm9udC1zaXplPSc1MCcgdGV4dC1hbmNob3I9J21pZGRsZScgeD0nNDgnIGZpbGw9J3doaXRlJz7inJU8L3RleHQ+PC9zdmc+IiwKICAgICAgICAgICJzaXplcyI6ICI5Nng5NiIsCiAgICAgICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgICAgIH0KICAgICAgXQogICAgfSwKICAgIHsKICAgICAgIm5hbWUiOiAiVmlldyBQcm9ncmVzcyIsCiAgICAgICJzaG9ydF9uYW1lIjogIlByb2dyZXNzIiwKICAgICAgInVybCI6ICIvP2FjdGlvbj1wcm9ncmVzcyIsCiAgICAgICJpY29ucyI6IFsKICAgICAgICB7CiAgICAgICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbCw8c3ZnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zycgdmlld0JveD0nMCAwIDk2IDk2Jz48cmVjdCB3aWR0aD0nOTYnIGhlaWdodD0nOTYnIHJ4PScyMCcgZmlsbD0nJTIzMzk4MWY2Jy8+PHRleHQgeT0nNjgnIGZvbnQtc2l6ZT0nNTAnIHRleHQtYW5jaG9yPSdtaWRkbGUnIHg9JzQ4JyBmaWxsPSd3aGl0ZSc+8J+TijwvdGV4dD48L3N2Zz4iLAogICAgICAgICAgInNpemVzIjogIjk2eDk2IiwKICAgICAgICAgICJ0eXBlIjogImltYWdlL3N2Zyt4bWwiCiAgICAgICAgfQogICAgICBdCiAgICB9LAogICAgewogICAgICAibmFtZSI6ICJTZW5kIFN1cHBvcnQiLAogICAgICAic2hvcnRfbmFtZSI6ICJTdXBwb3J0IiwKICAgICAgInVybCI6ICIvP2FjdGlvbj1zdXBwb3J0IiwKICAgICAgImljb25zIjogWwogICAgICAgIHsKICAgICAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLDxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgOTYgOTYnPjxyZWN0IHdpZHRoPSc5NicgaGVpZ2h0PSc5Nicgcng9JzIwJyBmaWxsPSclMjNhODU1ZjcnLz48dGV4dCB5PSc2OCcgZm9udC1zaXplPSc1MCcgdGV4dC1hbmNob3I9J21pZGRsZScgeD0nNDgnIGZpbGw9J3doaXRlJz7wn5mPPC90ZXh0Pjwvc3ZnPiIsCiAgICAgICAgICAic2l6ZXMiOiAiOTZ4OTYiLAogICAgICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgICAgICB9CiAgICAgIF0KICAgIH0KICBdCn0=">
+  <script src="https://cdn.tailwindcss.com"></script><!-- Firebase SDK -->
+  <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, set, push, onValue, off } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAfiHePOBWTmVXq2XSiJVcsd0BxlP-z8Ig",
+            authDomain: "support-for-bukky-burial.firebaseapp.com",
+            databaseURL: "https://support-for-bukky-burial-default-rtdb.firebaseio.com",
+            projectId: "support-for-bukky-burial",
+            storageBucket: "support-for-bukky-burial.firebasestorage.app",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:fcfe384dcdedcc6c0aad92"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Make Firebase functions available globally
+        window.firebaseDB = database;
+        window.firebaseRef = ref;
+        window.firebaseSet = set;
+        window.firebasePush = push;
+        window.firebaseOnValue = onValue;
+        window.firebaseOff = off;
+        window.firebaseInitialized = true;
+    </script>
+  <style>
         * {
             box-sizing: border-box;
         }
@@ -382,596 +423,903 @@
                 padding-right: 2rem;
             }
         }
+        /* Splash Screen Styles */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .splash-screen.fade-out {
+            opacity: 0;
+            transform: scale(1.1);
+        }
+        
+        .splash-logo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: logoFloat 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .splash-logo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: logoShine 2s ease-in-out infinite;
+        }
+        
+        @keyframes logoFloat {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            }
+            50% { 
+                transform: translateY(-10px) rotate(2deg);
+                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            }
+        }
+        
+        @keyframes logoShine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        .splash-title {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+            animation: titleSlideUp 1s ease-out 0.5s both;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .splash-subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 40px;
+            animation: titleSlideUp 1s ease-out 0.7s both;
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        @keyframes titleSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .splash-progress {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            animation: progressAppear 1s ease-out 1s both;
+        }
+        
+        .splash-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #3b82f6, #8b5cf6);
+            background-size: 200% 100%;
+            border-radius: 2px;
+            animation: progressLoad 2s ease-out 1.2s both, progressShimmer 1.5s ease-in-out 1.2s infinite;
+            transform: translateX(-100%);
+        }
+        
+        @keyframes progressAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes progressLoad {
+            from {
+                transform: translateX(-100%);
+            }
+            to {
+                transform: translateX(0%);
+            }
+        }
+        
+        @keyframes progressShimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .splash-status {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            text-align: center;
+            animation: statusFade 1s ease-out 1.5s both;
+            min-height: 20px;
+        }
+        
+        @keyframes statusFade {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .splash-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: particleFloat 6s linear infinite;
+        }
+        
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Hide main content initially */
+        .main-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .main-content.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Mobile splash adjustments */
+        @media (max-width: 640px) {
+            .splash-logo {
+                width: 100px;
+                height: 100px;
+                font-size: 50px;
+                margin-bottom: 25px;
+            }
+            
+            .splash-title {
+                font-size: 24px;
+                padding: 0 20px;
+            }
+            
+            .splash-subtitle {
+                font-size: 14px;
+                padding: 0 20px;
+            }
+            
+            .splash-progress {
+                width: 160px;
+            }
+        }
     </style>
-</head>
-<body class="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-full container-responsive">
-    <div class="max-w-7xl mx-auto w-full">
-        <!-- Header -->
-        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 mobile-card text-white shadow-2xl">
-            <h1 class="mobile-title font-bold mb-2">💰 Support for Bukky Daddy's Burial</h1>
-            <p class="text-indigo-100 mobile-body mb-3">Interactive tracker for Bukky Daddy's burial support</p>
-            <div class="bg-white/20 rounded-lg p-3 w-full">
-                <div class="font-semibold mobile-body">Target: ₦400,000</div>
-                <div class="font-semibold mobile-body">Burial: Nov 28–29, Abuja</div>
-            </div>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-full container-responsive"><!-- Splash Screen -->
+  <div id="splashScreen" class="splash-screen"><!-- Animated Particles Background -->
+   <div class="splash-particles" id="splashParticles"></div><!-- Logo with Animation -->
+   <div class="splash-logo">
+    💰
+   </div><!-- Title and Subtitle -->
+   <h1 class="splash-title">Bukky Support</h1>
+   <p class="splash-subtitle">Supporting Bukky Daddy's Burial Fund</p><!-- Progress Bar -->
+   <div class="splash-progress">
+    <div class="splash-progress-bar"></div>
+   </div><!-- Loading Status -->
+   <div id="splashStatus" class="splash-status">
+    Initializing...
+   </div>
+  </div><!-- Main Content -->
+  <div id="mainContent" class="main-content">
+   <div class="max-w-7xl mx-auto w-full"><!-- Header -->
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 mobile-card text-white shadow-2xl">
+     <h1 class="mobile-title font-bold mb-2">💰 Support for Bukky Daddy's Burial</h1>
+     <p class="text-indigo-100 mobile-body mb-3">Interactive tracker for Bukky Daddy's burial support</p>
+     <div id="syncStatus" class="bg-white/20 rounded-lg px-3 py-1 text-xs text-indigo-100 mb-2 flex items-center space-x-2">
+      <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div><span>🌐 Real-time sync active</span>
+     </div>
+     <div class="bg-white/20 rounded-lg p-3 w-full">
+      <div class="font-semibold mobile-body">
+       Target: ₦400,000
+      </div>
+      <div class="font-semibold mobile-body">
+       Burial: Nov 28–29, 9 AM
+      </div>
+      <div class="font-semibold mobile-body">
+       📍 Gudu Cemetery, Abuja
+      </div>
+     </div>
+    </div><!-- Progress Overview -->
+    <div class="mobile-grid mb-6"><!-- Progress Circle -->
+     <div class="bg-gradient-to-br from-gray-50 to-gray-100 mobile-card shadow-lg">
+      <h3 class="mobile-subtitle font-bold text-gray-800 mb-4 text-center">📊 Progress Overview</h3>
+      <div class="flex justify-center mb-4">
+       <div class="relative">
+        <svg class="mobile-progress drop-shadow-lg" viewbox="0 0 280 280"><!-- Background circle --> <circle cx="140" cy="140" r="120" fill="none" stroke="#e5e7eb" stroke-width="20" /> <!-- Progress circle --> <circle cx="140" cy="140" r="120" fill="none" stroke="#10b981" stroke-width="20" class="progress-circle" stroke-dasharray="214.6 753.6" stroke-linecap="round" />
+        </svg>
+        <div class="absolute inset-0 flex flex-col items-center justify-center">
+         <div id="mainProgress" class="text-2xl font-bold text-gray-800">
+          28.5%
+         </div>
+         <div class="text-xs text-gray-600 text-center">
+          Complete
+         </div>
         </div>
-
-        <!-- Progress Overview -->
-        <div class="mobile-grid mb-6">
-            <!-- Progress Circle -->
-            <div class="bg-gradient-to-br from-gray-50 to-gray-100 mobile-card shadow-lg">
-                <h3 class="mobile-subtitle font-bold text-gray-800 mb-4 text-center">📊 Progress Overview</h3>
-                <div class="flex justify-center mb-4">
-                    <div class="relative">
-                        <svg class="mobile-progress drop-shadow-lg" viewBox="0 0 280 280">
-                            <!-- Background circle -->
-                            <circle cx="140" cy="140" r="120" fill="none" stroke="#e5e7eb" stroke-width="20"/>
-                            <!-- Progress circle -->
-                            <circle cx="140" cy="140" r="120" fill="none" stroke="#10b981" stroke-width="20" 
-                                    class="progress-circle" stroke-dasharray="214.6 753.6" stroke-linecap="round"/>
-                        </svg>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center">
-                            <div id="mainProgress" class="text-2xl font-bold text-gray-800">28.5%</div>
-                            <div class="text-xs text-gray-600 text-center">Complete</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Financial Summary -->
-                <div class="space-y-3">
-                    <div class="p-3 bg-green-50 rounded-xl border-l-4 border-green-500">
-                        <div class="font-semibold text-gray-700 mobile-body mb-1">Amount Raised:</div>
-                        <div id="overviewRaised" class="text-lg font-bold text-green-600">₦114,000</div>
-                    </div>
-                    <div class="p-3 bg-blue-50 rounded-xl border-l-4 border-blue-500">
-                        <div class="font-semibold text-gray-700 mobile-body mb-1">Target Amount:</div>
-                        <div class="text-lg font-bold text-blue-600">₦400,000</div>
-                    </div>
-                    <div class="p-3 bg-orange-50 rounded-xl border-l-4 border-orange-500">
-                        <div class="font-semibold text-gray-700 mobile-body mb-1">Remaining:</div>
-                        <div id="overviewRemaining" class="text-lg font-bold text-orange-600">₦286,000</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Milestones -->
-            <div class="bg-gradient-to-br from-gray-50 to-gray-100 mobile-card shadow-lg">
-                <h3 class="mobile-subtitle font-bold text-gray-800 mb-4 text-center">🎯 Milestones</h3>
-                <div class="space-y-3">
-                    <div class="milestone reached p-3 rounded-xl shadow-md touch-target">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-3">
-                                <span class="text-xl">✅</span>
-                                <span class="font-semibold mobile-body">25% Milestone</span>
-                            </div>
-                            <span class="font-bold mobile-body">₦100,000</span>
-                        </div>
-                    </div>
-                    
-                    <div class="milestone current p-3 rounded-xl shadow-md touch-target">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-3">
-                                <span class="text-xl">🔥</span>
-                                <span class="font-semibold mobile-body">Current Progress</span>
-                            </div>
-                            <span class="font-bold mobile-body">₦114,000</span>
-                        </div>
-                    </div>
-                    
-                    <div class="milestone p-3 bg-gray-200 rounded-xl touch-target">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-3">
-                                <span class="text-xl">⏳</span>
-                                <span class="font-semibold text-gray-700 mobile-body">50% Milestone</span>
-                            </div>
-                            <span class="font-bold text-gray-700 mobile-body">₦200,000</span>
-                        </div>
-                    </div>
-                    
-                    <div class="milestone p-3 bg-gray-200 rounded-xl touch-target">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-3">
-                                <span class="text-xl">⏳</span>
-                                <span class="font-semibold text-gray-700 mobile-body">75% Milestone</span>
-                            </div>
-                            <span class="font-bold text-gray-700 mobile-body">₦300,000</span>
-                        </div>
-                    </div>
-                    
-                    <div class="milestone p-3 bg-gray-200 rounded-xl touch-target">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-3">
-                                <span class="text-xl">🏆</span>
-                                <span class="font-semibold text-gray-700 mobile-body">Goal Reached</span>
-                            </div>
-                            <span class="font-bold text-gray-700 mobile-body">₦400,000</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+       </div>
+      </div><!-- Financial Summary -->
+      <div class="space-y-3">
+       <div class="p-3 bg-green-50 rounded-xl border-l-4 border-green-500">
+        <div class="font-semibold text-gray-700 mobile-body mb-1">
+         Amount Raised:
         </div>
-
-        <div class="mobile-grid">
-            <!-- Left Column: Live Tracker -->
-            <div class="space-y-4">
-                <!-- Add Contribution Card -->
-                <div class="bg-white mobile-card shadow-lg card-hover">
-                    <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center">
-                        <span class="text-xl mr-2">💳</span>
-                        Make a Contribution
-                    </h2>
-                    
-                    <!-- Bank Account Information -->
-                    <div class="bg-gradient-to-r from-green-50 to-blue-50 p-4 rounded-xl mb-4 border border-green-200">
-                        <h3 class="font-bold text-gray-800 mb-3 flex items-center mobile-body">
-                            <span class="text-lg mr-2">🏦</span>
-                            Bank Account Details
-                        </h3>
-                        
-                        <div class="space-y-3">
-                            <div class="bg-white/80 p-3 rounded-lg">
-                                <div class="flex justify-between items-center">
-                                    <div>
-                                        <div class="text-xs text-gray-600 uppercase tracking-wide">Account Number</div>
-                                        <div class="font-bold text-gray-800 text-lg" id="accountNumber">0296958106</div>
-                                    </div>
-                                    <button onclick="copyToClipboard('0296958106', 'Account number')" 
-                                            class="bg-blue-100 hover:bg-blue-200 text-blue-700 p-2 rounded-lg transition-all hover:scale-105 touch-target">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="bg-white/80 p-3 rounded-lg">
-                                <div class="flex justify-between items-center">
-                                    <div>
-                                        <div class="text-xs text-gray-600 uppercase tracking-wide">Bank Name</div>
-                                        <div class="font-bold text-gray-800" id="bankName">Wema Bank</div>
-                                    </div>
-                                    <button onclick="copyToClipboard('Wema Bank', 'Bank name')" 
-                                            class="bg-blue-100 hover:bg-blue-200 text-blue-700 p-2 rounded-lg transition-all hover:scale-105 touch-target">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="bg-white/80 p-3 rounded-lg">
-                                <div class="flex justify-between items-center">
-                                    <div>
-                                        <div class="text-xs text-gray-600 uppercase tracking-wide">Account Name</div>
-                                        <div class="font-bold text-gray-800" id="accountName">OLORUNFEMI Ayodele Janet</div>
-                                    </div>
-                                    <button onclick="copyToClipboard('OLORUNFEMI Ayodele Janet', 'Account name')" 
-                                            class="bg-blue-100 hover:bg-blue-200 text-blue-700 p-2 rounded-lg transition-all hover:scale-105 touch-target">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="mt-3 flex space-x-2">
-                            <button onclick="copyAllBankDetails()" 
-                                    class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-all hover:scale-105 mobile-body touch-target">
-                                📋 Copy All Details
-                            </button>
-                            <button onclick="shareBankDetails()" 
-                                    class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all hover:scale-105 mobile-body touch-target">
-                                📤 Share Details
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Quick Amount Buttons -->
-                    <div class="mb-4">
-                        <h4 class="font-semibold text-gray-700 mb-2 mobile-body">💡 Suggested Amounts</h4>
-                        <div class="grid grid-cols-2 gap-2">
-                            <button onclick="selectAmount(5000)" 
-                                    class="amount-btn bg-green-50 hover:bg-green-100 border-2 border-green-200 text-green-800 font-semibold py-3 px-4 rounded-lg transition-all hover:scale-105 mobile-body touch-target">
-                                ₦5,000
-                            </button>
-                            <button onclick="selectAmount(10000)" 
-                                    class="amount-btn bg-blue-50 hover:bg-blue-100 border-2 border-blue-200 text-blue-800 font-semibold py-3 px-4 rounded-lg transition-all hover:scale-105 mobile-body touch-target">
-                                ₦10,000
-                            </button>
-                            <button onclick="selectAmount(15000)" 
-                                    class="amount-btn bg-purple-50 hover:bg-purple-100 border-2 border-purple-200 text-purple-800 font-semibold py-3 px-4 rounded-lg transition-all hover:scale-105 mobile-body touch-target">
-                                ₦15,000
-                            </button>
-                            <button onclick="selectAmount(20000)" 
-                                    class="amount-btn bg-orange-50 hover:bg-orange-100 border-2 border-orange-200 text-orange-800 font-semibold py-3 px-4 rounded-lg transition-all hover:scale-105 mobile-body touch-target">
-                                ₦20,000
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Contribution Form -->
-                    <div class="space-y-4">
-                        <div>
-                            <label for="donorName" class="block mobile-body font-semibold text-gray-700 mb-2">Your Name</label>
-                            <input type="text" id="donorName" placeholder="Enter your full name" 
-                                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none input-focus mobile-body touch-target">
-                        </div>
-                        
-                        <div>
-                            <label for="donorAmount" class="block mobile-body font-semibold text-gray-700 mb-2">Amount Contributed (₦)</label>
-                            <input type="number" id="donorAmount" placeholder="Enter amount you transferred" min="0" 
-                                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none input-focus mobile-body touch-target">
-                        </div>
-                        
-                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
-                            <div class="flex items-start space-x-2">
-                                <span class="text-yellow-600 text-lg">💡</span>
-                                <div class="text-sm text-yellow-800">
-                                    <strong>After transferring:</strong> Please add your contribution here so we can track our progress together!
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <button onclick="addContribution()" 
-                                class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-green-300 relative overflow-hidden group mobile-body touch-target">
-                            <span class="relative z-10">✅ Record My Contribution</span>
-                            <div class="absolute inset-0 bg-gradient-to-r from-green-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Progress Card -->
-                <div class="bg-white mobile-card shadow-lg card-hover">
-                    <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center">
-                        <span class="text-xl mr-2">📊</span>
-                        Progress to Goal
-                    </h2>
-                    
-                    <div class="mb-4">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="mobile-body font-semibold text-gray-600">Current Progress</span>
-                            <span id="progressPercent" class="text-lg font-bold text-blue-600">28.5%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-6 overflow-hidden">
-                            <div id="progressBar" class="progress-bar bg-gradient-to-r from-blue-500 to-purple-500 h-full rounded-full" style="width: 28.5%"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="mobile-stats">
-                        <div class="text-center p-3 bg-green-50 rounded-xl">
-                            <div class="text-lg font-bold text-green-600" id="totalRaised">₦114,000</div>
-                            <div class="text-xs text-gray-600">Raised</div>
-                        </div>
-                        <div class="text-center p-3 bg-orange-50 rounded-xl">
-                            <div class="text-lg font-bold text-orange-600" id="totalRemaining">₦286,000</div>
-                            <div class="text-xs text-gray-600">Remaining</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Current Stats -->
-                <div class="bg-white mobile-card shadow-lg card-hover">
-                    <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center">
-                        <span class="text-xl mr-2">📈</span>
-                        Current Statistics
-                    </h2>
-                    
-                    <div class="mobile-stats">
-                        <div class="stat-card p-3 rounded-xl tooltip touch-target" data-tooltip="Total number of people who have contributed">
-                            <div class="text-lg font-bold text-gray-800" id="totalContributors">4</div>
-                            <div class="text-xs text-gray-600">Contributors</div>
-                        </div>
-                        <div class="stat-card p-3 rounded-xl tooltip touch-target" data-tooltip="Average amount per contribution">
-                            <div class="text-lg font-bold text-gray-800" id="averageContribution">₦28,500</div>
-                            <div class="text-xs text-gray-600">Average</div>
-                        </div>
-                        <div class="stat-card p-3 rounded-xl tooltip touch-target" data-tooltip="Percentage of group members who have contributed">
-                            <div class="text-lg font-bold text-gray-800" id="participationRate">7.0%</div>
-                            <div class="text-xs text-gray-600">Participation</div>
-                        </div>
-                        <div class="stat-card p-3 rounded-xl tooltip touch-target" data-tooltip="Amount needed from each remaining member">
-                            <div class="text-lg font-bold text-gray-800" id="neededPerPerson">₦7,018</div>
-                            <div class="text-xs text-gray-600">Needed/Person</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Community Support Stats -->
-                <div class="bg-white mobile-card shadow-lg card-hover">
-                    <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center">
-                        <span class="text-xl mr-2">💝</span>
-                        Community Support
-                    </h2>
-                    
-                    <div class="space-y-3 mb-4">
-                        <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-3 rounded-xl border border-purple-200">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center space-x-2">
-                                    <span class="text-lg">🙏</span>
-                                    <span class="font-semibold text-purple-800 text-sm">Messages of Support</span>
-                                </div>
-                                <div class="text-lg font-bold text-purple-700" id="liveSupportCount">0</div>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-3 rounded-xl border border-blue-200">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center space-x-2">
-                                    <span class="text-lg">💙</span>
-                                    <span class="font-semibold text-blue-800 text-sm">Emotional Support</span>
-                                </div>
-                                <div class="text-sm font-bold text-blue-700">Active</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button onclick="showSupportStats()" 
-                            class="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-4 rounded-xl transition-all flex items-center justify-center space-x-2 touch-target">
-                        <span>📊</span>
-                        <span>View Support Impact</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Right Column: What-If Simulator -->
-            <div class="space-y-4">
-                <!-- Simulator Controls -->
-                <div class="bg-white mobile-card shadow-lg card-hover">
-                    <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center">
-                        <span class="text-xl mr-2">🔮</span>
-                        What-If Simulator
-                    </h2>
-                    
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block mobile-body font-semibold text-gray-700 mb-2">Group Members</label>
-                            <input type="number" id="simGroupSize" value="57" min="1" 
-                                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none input-focus mobile-body touch-target"
-                                   onchange="updateSimulation()">
-                        </div>
-                        
-                        <div>
-                            <label class="block mobile-body font-semibold text-gray-700 mb-2">Contributors</label>
-                            <input type="number" id="simContributors" value="4" min="0" 
-                                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none input-focus mobile-body touch-target"
-                                   onchange="updateSimulation()">
-                        </div>
-                        
-                        <div>
-                            <label class="block mobile-body font-semibold text-gray-700 mb-2">Total Amount (₦)</label>
-                            <input type="number" id="simTotalAmount" value="114000" min="0" 
-                                   class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none input-focus mobile-body touch-target"
-                                   onchange="updateSimulation()">
-                        </div>
-                        
-                        <button onclick="resetSimulation()" 
-                                class="w-full bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 px-4 rounded-xl transition-all mobile-body touch-target">
-                            Reset to Current
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Simulation Results -->
-                <div class="bg-white mobile-card shadow-lg card-hover">
-                    <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center">
-                        <span class="text-xl mr-2">📋</span>
-                        Simulation Results
-                    </h2>
-                    
-                    <div class="space-y-4">
-                        <div class="p-4 bg-purple-50 rounded-xl">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="font-semibold text-gray-700 mobile-body">Progress</span>
-                                <span id="simProgress" class="text-lg font-bold text-purple-600">28.5%</span>
-                            </div>
-                            <div class="w-full bg-gray-200 rounded-full h-3">
-                                <div id="simProgressBar" class="bg-gradient-to-r from-purple-500 to-pink-500 h-full rounded-full transition-all duration-500" style="width: 28.5%"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="mobile-stats">
-                            <div class="p-3 bg-blue-50 rounded-xl text-center">
-                                <div id="simRemaining" class="text-lg font-bold text-blue-600">₦286,000</div>
-                                <div class="text-xs text-gray-600">Remaining</div>
-                            </div>
-                            <div class="p-3 bg-green-50 rounded-xl text-center">
-                                <div id="simAverage" class="text-lg font-bold text-green-600">₦28,500</div>
-                                <div class="text-xs text-gray-600">Average</div>
-                            </div>
-                            <div class="p-3 bg-orange-50 rounded-xl text-center">
-                                <div id="simParticipation" class="text-lg font-bold text-orange-600">7.0%</div>
-                                <div class="text-xs text-gray-600">Participation</div>
-                            </div>
-                            <div class="p-3 bg-red-50 rounded-xl text-center">
-                                <div id="simNeededPerPerson" class="text-lg font-bold text-red-600">₦7,018</div>
-                                <div class="text-xs text-gray-600">Per Person</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Comparison -->
-                <div class="bg-white mobile-card shadow-lg card-hover">
-                    <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center">
-                        <span class="text-xl mr-2">⚖️</span>
-                        Current vs Simulation
-                    </h2>
-                    
-                    <div id="comparisonResults" class="space-y-3">
-                        <!-- Comparison items will be inserted here -->
-                    </div>
-                </div>
-
-                <!-- Contributors List -->
-                <div class="bg-white mobile-card shadow-lg card-hover">
-                    <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center">
-                        <span class="text-xl mr-2">👥</span>
-                        Contributors
-                    </h2>
-                    
-                    <div id="contributorsList" class="space-y-2 max-h-64 overflow-y-auto">
-                        <!-- Contributors will be listed here -->
-                    </div>
-                </div>
-            </div>
+        <div id="overviewRaised" class="text-lg font-bold text-green-600">
+         ₦114,000
         </div>
-
-        <!-- Enhanced Call to Action -->
-        <div class="bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 mobile-card text-center mt-6 relative overflow-hidden">
-            <!-- Background decoration -->
-            <div class="absolute inset-0 opacity-10">
-                <div class="absolute top-4 left-4 w-16 h-16 bg-green-400 rounded-full blur-xl"></div>
-                <div class="absolute bottom-4 right-4 w-20 h-20 bg-blue-400 rounded-full blur-xl"></div>
-                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-purple-400 rounded-full blur-xl"></div>
-            </div>
-            
-            <div class="relative z-10">
-                <h3 class="mobile-title font-bold text-gray-800 mb-4 flex items-center justify-center">
-                    <span class="text-2xl mr-3">🤝</span>
-                    Join Our Cause
-                </h3>
-                
-                <!-- Progress highlight -->
-                <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 mb-6 border border-white/50">
-                    <div class="flex items-center justify-center space-x-4 mb-3">
-                        <div class="text-center">
-                            <div id="ctaProgress" class="text-2xl font-bold text-green-600">28.5%</div>
-                            <div class="text-xs text-gray-600">Complete</div>
-                        </div>
-                        <div class="w-px h-8 bg-gray-300"></div>
-                        <div class="text-center">
-                            <div id="ctaRemaining" class="text-2xl font-bold text-orange-600">₦286,000</div>
-                            <div class="text-xs text-gray-600">To Go</div>
-                        </div>
-                    </div>
-                    <p class="text-gray-700 mobile-body leading-relaxed">
-                        Every contribution, no matter the size, brings us closer to giving Bukky Daddy the dignified farewell he deserves. Your support makes a real difference.
-                    </p>
-                </div>
-                
-                <!-- Action cards with hover effects -->
-                <div class="space-y-4 mb-6">
-                    <div class="bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-white/50 card-hover cursor-pointer group" onclick="scrollToContribution()">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">
-                                💰
-                            </div>
-                            <div class="flex-1 text-left">
-                                <div class="font-bold text-gray-800 mobile-body">Make a Contribution</div>
-                                <div class="text-xs text-gray-600">Add your support directly to the fund</div>
-                            </div>
-                            <div class="text-green-600 group-hover:translate-x-1 transition-transform">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-white/50 card-hover cursor-pointer group" onclick="shareTracker()">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">
-                                📢
-                            </div>
-                            <div class="flex-1 text-left">
-                                <div class="font-bold text-gray-800 mobile-body">Share This Tracker</div>
-                                <div class="text-xs text-gray-600">Help spread awareness to more supporters</div>
-                            </div>
-                            <div class="text-blue-600 group-hover:translate-x-1 transition-transform">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-white/50 card-hover cursor-pointer group" onclick="showPrayerMessage()">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">
-                                🙏
-                            </div>
-                            <div class="flex-1 text-left">
-                                <div class="font-bold text-gray-800 mobile-body">Send Prayers & Support</div>
-                                <div class="text-xs text-gray-600">Offer emotional encouragement to the family</div>
-                            </div>
-                            <div class="text-purple-600 group-hover:translate-x-1 transition-transform">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Impact statement -->
-                <div class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl p-6 mb-6">
-                    <h4 class="font-bold mobile-body mb-3">🌟 Your Impact Matters</h4>
-                    <div class="mobile-stats text-center">
-                        <div class="bg-white/20 rounded-lg p-3">
-                            <div class="text-lg font-bold">₦7,018</div>
-                            <div class="text-xs opacity-90">Per person needed</div>
-                        </div>
-                        <div class="bg-white/20 rounded-lg p-3">
-                            <div class="text-lg font-bold">53</div>
-                            <div class="text-xs opacity-90">Members remaining</div>
-                        </div>
-                    </div>
-                    <p class="text-sm opacity-90 mt-3 leading-relaxed">
-                        If each remaining member contributes just ₦7,018, we'll reach our goal and honor Bukky Daddy's memory together.
-                    </p>
-                </div>
-                
-                <!-- Quick contribution buttons -->
-                <div class="mb-6">
-                    <h4 class="font-semibold text-gray-800 mb-3 mobile-body">💡 Quick Contribution Ideas</h4>
-                    <div class="flex flex-wrap gap-2 justify-center">
-                        <button onclick="quickContribute(5000)" class="bg-green-100 hover:bg-green-200 text-green-800 px-4 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 touch-target">
-                            ₦5,000
-                        </button>
-                        <button onclick="quickContribute(10000)" class="bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 touch-target">
-                            ₦10,000
-                        </button>
-                        <button onclick="quickContribute(15000)" class="bg-purple-100 hover:bg-purple-200 text-purple-800 px-4 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 touch-target">
-                            ₦15,000
-                        </button>
-                        <button onclick="quickContribute(20000)" class="bg-orange-100 hover:bg-orange-200 text-orange-800 px-4 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 touch-target">
-                            ₦20,000
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Contact information -->
-                <div class="bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-white/50">
-                    <h4 class="font-semibold text-gray-800 mb-2 mobile-body">📞 Need Help or Have Questions?</h4>
-                    <p class="text-sm text-gray-600 mb-3">
-                        Contact the organizing committee for assistance or more information about the burial arrangements.
-                    </p>
-                    <div class="flex flex-wrap gap-2 justify-center">
-                        <button onclick="showContactInfo()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all hover:scale-105 touch-target">
-                            Contact Organizers
-                        </button>
-                        <button onclick="showBurialDetails()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all hover:scale-105 touch-target">
-                            Burial Details
-                        </button>
-                    </div>
-                </div>
-            </div>
+       </div>
+       <div class="p-3 bg-blue-50 rounded-xl border-l-4 border-blue-500">
+        <div class="font-semibold text-gray-700 mobile-body mb-1">
+         Target Amount:
         </div>
+        <div class="text-lg font-bold text-blue-600">
+         ₦400,000
+        </div>
+       </div>
+       <div class="p-3 bg-orange-50 rounded-xl border-l-4 border-orange-500">
+        <div class="font-semibold text-gray-700 mobile-body mb-1">
+         Remaining:
+        </div>
+        <div id="overviewRemaining" class="text-lg font-bold text-orange-600">
+         ₦286,000
+        </div>
+       </div>
+      </div>
+     </div><!-- Milestones -->
+     <div class="bg-gradient-to-br from-gray-50 to-gray-100 mobile-card shadow-lg">
+      <h3 class="mobile-subtitle font-bold text-gray-800 mb-4 text-center">🎯 Milestones</h3>
+      <div class="space-y-3">
+       <div class="milestone reached p-3 rounded-xl shadow-md touch-target">
+        <div class="flex items-center justify-between">
+         <div class="flex items-center space-x-3"><span class="text-xl">✅</span> <span class="font-semibold mobile-body">25% Milestone</span>
+         </div><span class="font-bold mobile-body">₦100,000</span>
+        </div>
+       </div>
+       <div class="milestone current p-3 rounded-xl shadow-md touch-target">
+        <div class="flex items-center justify-between">
+         <div class="flex items-center space-x-3"><span class="text-xl">🔥</span> <span class="font-semibold mobile-body">Current Progress</span>
+         </div><span class="font-bold mobile-body">₦114,000</span>
+        </div>
+       </div>
+       <div class="milestone p-3 bg-gray-200 rounded-xl touch-target">
+        <div class="flex items-center justify-between">
+         <div class="flex items-center space-x-3"><span class="text-xl">⏳</span> <span class="font-semibold text-gray-700 mobile-body">50% Milestone</span>
+         </div><span class="font-bold text-gray-700 mobile-body">₦200,000</span>
+        </div>
+       </div>
+       <div class="milestone p-3 bg-gray-200 rounded-xl touch-target">
+        <div class="flex items-center justify-between">
+         <div class="flex items-center space-x-3"><span class="text-xl">⏳</span> <span class="font-semibold text-gray-700 mobile-body">75% Milestone</span>
+         </div><span class="font-bold text-gray-700 mobile-body">₦300,000</span>
+        </div>
+       </div>
+       <div class="milestone p-3 bg-gray-200 rounded-xl touch-target">
+        <div class="flex items-center justify-between">
+         <div class="flex items-center space-x-3"><span class="text-xl">🏆</span> <span class="font-semibold text-gray-700 mobile-body">Goal Reached</span>
+         </div><span class="font-bold text-gray-700 mobile-body">₦400,000</span>
+        </div>
+       </div>
+      </div>
+     </div>
     </div>
+    <div class="mobile-grid"><!-- Left Column: Live Tracker -->
+     <div class="space-y-4"><!-- Add Contribution Card -->
+      <div class="bg-white mobile-card shadow-lg card-hover">
+       <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center"><span class="text-xl mr-2">💳</span> Make a Contribution</h2><!-- Bank Account Information -->
+       <div class="bg-gradient-to-r from-green-50 to-blue-50 p-4 rounded-xl mb-4 border border-green-200">
+        <h3 class="font-bold text-gray-800 mb-3 flex items-center mobile-body"><span class="text-lg mr-2">🏦</span> Bank Account Details</h3>
+        <div class="space-y-3">
+         <div class="bg-white/80 p-3 rounded-lg">
+          <div class="flex justify-between items-center">
+           <div>
+            <div class="text-xs text-gray-600 uppercase tracking-wide">
+             Account Number
+            </div>
+            <div class="font-bold text-gray-800 text-lg" id="accountNumber">
+             0296958106
+            </div>
+           </div><button onclick="copyToClipboard('0296958106', 'Account number')" class="bg-blue-100 hover:bg-blue-200 text-blue-700 p-2 rounded-lg transition-all hover:scale-105 touch-target">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg></button>
+          </div>
+         </div>
+         <div class="bg-white/80 p-3 rounded-lg">
+          <div class="flex justify-between items-center">
+           <div>
+            <div class="text-xs text-gray-600 uppercase tracking-wide">
+             Bank Name
+            </div>
+            <div class="font-bold text-gray-800" id="bankName">
+             Wema Bank
+            </div>
+           </div><button onclick="copyToClipboard('Wema Bank', 'Bank name')" class="bg-blue-100 hover:bg-blue-200 text-blue-700 p-2 rounded-lg transition-all hover:scale-105 touch-target">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg></button>
+          </div>
+         </div>
+         <div class="bg-white/80 p-3 rounded-lg">
+          <div class="flex justify-between items-center">
+           <div>
+            <div class="text-xs text-gray-600 uppercase tracking-wide">
+             Account Name
+            </div>
+            <div class="font-bold text-gray-800" id="accountName">
+             OLORUNFEMI Ayodele Janet
+            </div>
+           </div><button onclick="copyToClipboard('OLORUNFEMI Ayodele Janet', 'Account name')" class="bg-blue-100 hover:bg-blue-200 text-blue-700 p-2 rounded-lg transition-all hover:scale-105 touch-target">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+            </svg></button>
+          </div>
+         </div>
+        </div>
+        <div class="mt-3 flex space-x-2"><button onclick="copyAllBankDetails()" class="flex-1 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition-all hover:scale-105 mobile-body touch-target"> 📋 Copy All Details </button> <button onclick="shareBankDetails()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all hover:scale-105 mobile-body touch-target"> 📤 Share Details </button>
+        </div>
+       </div><!-- Quick Amount Buttons -->
+       <div class="mb-4">
+        <h4 class="font-semibold text-gray-700 mb-2 mobile-body">💡 Suggested Amounts</h4>
+        <div class="grid grid-cols-2 gap-2"><button onclick="selectAmount(5000)" class="amount-btn bg-green-50 hover:bg-green-100 border-2 border-green-200 text-green-800 font-semibold py-3 px-4 rounded-lg transition-all hover:scale-105 mobile-body touch-target"> ₦5,000 </button> <button onclick="selectAmount(10000)" class="amount-btn bg-blue-50 hover:bg-blue-100 border-2 border-blue-200 text-blue-800 font-semibold py-3 px-4 rounded-lg transition-all hover:scale-105 mobile-body touch-target"> ₦10,000 </button> <button onclick="selectAmount(15000)" class="amount-btn bg-purple-50 hover:bg-purple-100 border-2 border-purple-200 text-purple-800 font-semibold py-3 px-4 rounded-lg transition-all hover:scale-105 mobile-body touch-target"> ₦15,000 </button> <button onclick="selectAmount(20000)" class="amount-btn bg-orange-50 hover:bg-orange-100 border-2 border-orange-200 text-orange-800 font-semibold py-3 px-4 rounded-lg transition-all hover:scale-105 mobile-body touch-target"> ₦20,000 </button>
+        </div>
+       </div><!-- Contribution Form -->
+       <div class="space-y-4">
+        <div><label for="donorName" class="block mobile-body font-semibold text-gray-700 mb-2">Your Name</label> <input type="text" id="donorName" placeholder="Enter your full name" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none input-focus mobile-body touch-target">
+        </div>
+        <div><label for="donorAmount" class="block mobile-body font-semibold text-gray-700 mb-2">Amount Contributed (₦)</label> <input type="number" id="donorAmount" placeholder="Enter amount you transferred" min="0" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none input-focus mobile-body touch-target">
+        </div>
+        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+         <div class="flex items-start space-x-2"><span class="text-yellow-600 text-lg">💡</span>
+          <div class="text-sm text-yellow-800"><strong>After transferring:</strong> Please add your contribution here so we can track our progress together!
+          </div>
+         </div>
+        </div><button onclick="addContribution()" class="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 px-6 rounded-xl transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-green-300 relative overflow-hidden group mobile-body touch-target"> <span class="relative z-10">✅ Record My Contribution</span>
+         <div class="absolute inset-0 bg-gradient-to-r from-green-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div></button>
+       </div>
+      </div><!-- Progress Card -->
+      <div class="bg-white mobile-card shadow-lg card-hover">
+       <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center"><span class="text-xl mr-2">📊</span> Progress to Goal</h2>
+       <div class="mb-4">
+        <div class="flex justify-between items-center mb-2"><span class="mobile-body font-semibold text-gray-600">Current Progress</span> <span id="progressPercent" class="text-lg font-bold text-blue-600">28.5%</span>
+        </div>
+        <div class="w-full bg-gray-200 rounded-full h-6 overflow-hidden">
+         <div id="progressBar" class="progress-bar bg-gradient-to-r from-blue-500 to-purple-500 h-full rounded-full" style="width: 28.5%"></div>
+        </div>
+       </div>
+       <div class="mobile-stats">
+        <div class="text-center p-3 bg-green-50 rounded-xl">
+         <div class="text-lg font-bold text-green-600" id="totalRaised">
+          ₦114,000
+         </div>
+         <div class="text-xs text-gray-600">
+          Raised
+         </div>
+        </div>
+        <div class="text-center p-3 bg-orange-50 rounded-xl">
+         <div class="text-lg font-bold text-orange-600" id="totalRemaining">
+          ₦286,000
+         </div>
+         <div class="text-xs text-gray-600">
+          Remaining
+         </div>
+        </div>
+       </div>
+      </div><!-- Current Stats -->
+      <div class="bg-white mobile-card shadow-lg card-hover">
+       <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center"><span class="text-xl mr-2">📈</span> Current Statistics</h2>
+       <div class="mobile-stats">
+        <div class="stat-card p-3 rounded-xl tooltip touch-target" data-tooltip="Total number of people who have contributed">
+         <div class="text-lg font-bold text-gray-800" id="totalContributors">
+          4
+         </div>
+         <div class="text-xs text-gray-600">
+          Contributors
+         </div>
+        </div>
+        <div class="stat-card p-3 rounded-xl tooltip touch-target" data-tooltip="Average amount per contribution">
+         <div class="text-lg font-bold text-gray-800" id="averageContribution">
+          ₦28,500
+         </div>
+         <div class="text-xs text-gray-600">
+          Average
+         </div>
+        </div>
+        <div class="stat-card p-3 rounded-xl tooltip touch-target" data-tooltip="Percentage of group members who have contributed">
+         <div class="text-lg font-bold text-gray-800" id="participationRate">
+          7.0%
+         </div>
+         <div class="text-xs text-gray-600">
+          Participation
+         </div>
+        </div>
+        <div class="stat-card p-3 rounded-xl tooltip touch-target" data-tooltip="Amount needed from each remaining member">
+         <div class="text-lg font-bold text-gray-800" id="neededPerPerson">
+          ₦7,018
+         </div>
+         <div class="text-xs text-gray-600">
+          Needed/Person
+         </div>
+        </div>
+       </div>
+      </div><!-- Community Support Stats -->
+      <div class="bg-white mobile-card shadow-lg card-hover">
+       <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center"><span class="text-xl mr-2">💝</span> Community Support</h2>
+       <div class="space-y-3 mb-4">
+        <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-3 rounded-xl border border-purple-200">
+         <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2"><span class="text-lg">🙏</span> <span class="font-semibold text-purple-800 text-sm">Messages of Support</span>
+          </div>
+          <div class="text-lg font-bold text-purple-700" id="liveSupportCount">
+           0
+          </div>
+         </div>
+        </div>
+        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-3 rounded-xl border border-blue-200">
+         <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2"><span class="text-lg">💙</span> <span class="font-semibold text-blue-800 text-sm">Emotional Support</span>
+          </div>
+          <div class="text-sm font-bold text-blue-700">
+           Active
+          </div>
+         </div>
+        </div>
+       </div><button onclick="showSupportStats()" class="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-4 rounded-xl transition-all flex items-center justify-center space-x-2 touch-target"> <span>📊</span> <span>View Support Impact</span> </button>
+      </div>
+     </div><!-- Right Column: What-If Simulator -->
+     <div class="space-y-4"><!-- Simulator Controls -->
+      <div class="bg-white mobile-card shadow-lg card-hover">
+       <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center"><span class="text-xl mr-2">🔮</span> What-If Simulator</h2>
+       <div class="space-y-4">
+        <div><label class="block mobile-body font-semibold text-gray-700 mb-2">Group Members</label> <input type="number" id="simGroupSize" value="57" min="1" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none input-focus mobile-body touch-target" onchange="updateSimulation()">
+        </div>
+        <div><label class="block mobile-body font-semibold text-gray-700 mb-2">Contributors</label> <input type="number" id="simContributors" value="4" min="0" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none input-focus mobile-body touch-target" onchange="updateSimulation()">
+        </div>
+        <div><label class="block mobile-body font-semibold text-gray-700 mb-2">Total Amount (₦)</label> <input type="number" id="simTotalAmount" value="114000" min="0" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-purple-500 focus:outline-none input-focus mobile-body touch-target" onchange="updateSimulation()">
+        </div><button onclick="resetSimulation()" class="w-full bg-gray-500 hover:bg-gray-600 text-white font-bold py-4 px-4 rounded-xl transition-all mobile-body touch-target"> Reset to Current </button>
+       </div>
+      </div><!-- Simulation Results -->
+      <div class="bg-white mobile-card shadow-lg card-hover">
+       <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center"><span class="text-xl mr-2">📋</span> Simulation Results</h2>
+       <div class="space-y-4">
+        <div class="p-4 bg-purple-50 rounded-xl">
+         <div class="flex justify-between items-center mb-2"><span class="font-semibold text-gray-700 mobile-body">Progress</span> <span id="simProgress" class="text-lg font-bold text-purple-600">28.5%</span>
+         </div>
+         <div class="w-full bg-gray-200 rounded-full h-3">
+          <div id="simProgressBar" class="bg-gradient-to-r from-purple-500 to-pink-500 h-full rounded-full transition-all duration-500" style="width: 28.5%"></div>
+         </div>
+        </div>
+        <div class="mobile-stats">
+         <div class="p-3 bg-blue-50 rounded-xl text-center">
+          <div id="simRemaining" class="text-lg font-bold text-blue-600">
+           ₦286,000
+          </div>
+          <div class="text-xs text-gray-600">
+           Remaining
+          </div>
+         </div>
+         <div class="p-3 bg-green-50 rounded-xl text-center">
+          <div id="simAverage" class="text-lg font-bold text-green-600">
+           ₦28,500
+          </div>
+          <div class="text-xs text-gray-600">
+           Average
+          </div>
+         </div>
+         <div class="p-3 bg-orange-50 rounded-xl text-center">
+          <div id="simParticipation" class="text-lg font-bold text-orange-600">
+           7.0%
+          </div>
+          <div class="text-xs text-gray-600">
+           Participation
+          </div>
+         </div>
+         <div class="p-3 bg-red-50 rounded-xl text-center">
+          <div id="simNeededPerPerson" class="text-lg font-bold text-red-600">
+           ₦7,018
+          </div>
+          <div class="text-xs text-gray-600">
+           Per Person
+          </div>
+         </div>
+        </div>
+       </div>
+      </div><!-- Comparison -->
+      <div class="bg-white mobile-card shadow-lg card-hover">
+       <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center"><span class="text-xl mr-2">⚖️</span> Current vs Simulation</h2>
+       <div id="comparisonResults" class="space-y-3"><!-- Comparison items will be inserted here -->
+       </div>
+      </div><!-- Contributors List -->
+      <div class="bg-white mobile-card shadow-lg card-hover">
+       <h2 class="mobile-subtitle font-bold text-gray-800 mb-4 flex items-center"><span class="text-xl mr-2">👥</span> Contributors</h2>
+       <div id="contributorsList" class="space-y-2 max-h-64 overflow-y-auto"><!-- Contributors will be listed here -->
+       </div>
+      </div>
+     </div>
+    </div><!-- Enhanced Call to Action -->
+    <div class="bg-gradient-to-br from-green-50 via-blue-50 to-purple-50 mobile-card text-center mt-6 relative overflow-hidden"><!-- Background decoration -->
+     <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-4 left-4 w-16 h-16 bg-green-400 rounded-full blur-xl"></div>
+      <div class="absolute bottom-4 right-4 w-20 h-20 bg-blue-400 rounded-full blur-xl"></div>
+      <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-purple-400 rounded-full blur-xl"></div>
+     </div>
+     <div class="relative z-10">
+      <h3 class="mobile-title font-bold text-gray-800 mb-4 flex items-center justify-center"><span class="text-2xl mr-3">🤝</span> Join Our Cause</h3><!-- Progress highlight -->
+      <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 mb-6 border border-white/50">
+       <div class="flex items-center justify-center space-x-4 mb-3">
+        <div class="text-center">
+         <div id="ctaProgress" class="text-2xl font-bold text-green-600">
+          28.5%
+         </div>
+         <div class="text-xs text-gray-600">
+          Complete
+         </div>
+        </div>
+        <div class="w-px h-8 bg-gray-300"></div>
+        <div class="text-center">
+         <div id="ctaRemaining" class="text-2xl font-bold text-orange-600">
+          ₦286,000
+         </div>
+         <div class="text-xs text-gray-600">
+          To Go
+         </div>
+        </div>
+       </div>
+       <p class="text-gray-700 mobile-body leading-relaxed">Every contribution, no matter the size, brings us closer to giving Bukky Daddy the dignified farewell he deserves. Your support makes a real difference.</p>
+      </div><!-- Action cards with hover effects -->
+      <div class="space-y-4 mb-6">
+       <div class="bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-white/50 card-hover cursor-pointer group" onclick="scrollToContribution()">
+        <div class="flex items-center space-x-4">
+         <div class="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">
+          💰
+         </div>
+         <div class="flex-1 text-left">
+          <div class="font-bold text-gray-800 mobile-body">
+           Make a Contribution
+          </div>
+          <div class="text-xs text-gray-600">
+           Add your support directly to the fund
+          </div>
+         </div>
+         <div class="text-green-600 group-hover:translate-x-1 transition-transform">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+         </div>
+        </div>
+       </div>
+       <div class="bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-white/50 card-hover cursor-pointer group" onclick="shareTracker()">
+        <div class="flex items-center space-x-4">
+         <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">
+          📢
+         </div>
+         <div class="flex-1 text-left">
+          <div class="font-bold text-gray-800 mobile-body">
+           Share This Tracker
+          </div>
+          <div class="text-xs text-gray-600">
+           Help spread awareness to more supporters
+          </div>
+         </div>
+         <div class="text-blue-600 group-hover:translate-x-1 transition-transform">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+         </div>
+        </div>
+       </div>
+       <div class="bg-white/90 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-white/50 card-hover cursor-pointer group" onclick="showPrayerMessage()">
+        <div class="flex items-center space-x-4">
+         <div class="w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center text-white text-xl group-hover:scale-110 transition-transform">
+          🙏
+         </div>
+         <div class="flex-1 text-left">
+          <div class="font-bold text-gray-800 mobile-body">
+           Send Prayers &amp; Support
+          </div>
+          <div class="text-xs text-gray-600">
+           Offer emotional encouragement to the family
+          </div>
+         </div>
+         <div class="text-purple-600 group-hover:translate-x-1 transition-transform">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+         </div>
+        </div>
+       </div>
+      </div><!-- Impact statement -->
+      <div class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl p-6 mb-6">
+       <h4 class="font-bold mobile-body mb-3">🌟 Your Impact Matters</h4>
+       <div class="mobile-stats text-center">
+        <div class="bg-white/20 rounded-lg p-3">
+         <div class="text-lg font-bold">
+          ₦7,018
+         </div>
+         <div class="text-xs opacity-90">
+          Per person needed
+         </div>
+        </div>
+        <div class="bg-white/20 rounded-lg p-3">
+         <div class="text-lg font-bold">
+          53
+         </div>
+         <div class="text-xs opacity-90">
+          Members remaining
+         </div>
+        </div>
+       </div>
+       <p class="text-sm opacity-90 mt-3 leading-relaxed">If each remaining member contributes just ₦7,018, we'll reach our goal and honor Bukky Daddy's memory together.</p>
+      </div><!-- Quick contribution buttons -->
+      <div class="mb-6">
+       <h4 class="font-semibold text-gray-800 mb-3 mobile-body">💡 Quick Contribution Ideas</h4>
+       <div class="flex flex-wrap gap-2 justify-center"><button onclick="quickContribute(5000)" class="bg-green-100 hover:bg-green-200 text-green-800 px-4 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 touch-target"> ₦5,000 </button> <button onclick="quickContribute(10000)" class="bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 touch-target"> ₦10,000 </button> <button onclick="quickContribute(15000)" class="bg-purple-100 hover:bg-purple-200 text-purple-800 px-4 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 touch-target"> ₦15,000 </button> <button onclick="quickContribute(20000)" class="bg-orange-100 hover:bg-orange-200 text-orange-800 px-4 py-2 rounded-full text-sm font-semibold transition-all hover:scale-105 touch-target"> ₦20,000 </button>
+       </div>
+      </div><!-- Contact information -->
+      <div class="bg-white/60 backdrop-blur-sm rounded-xl p-4 border border-white/50">
+       <h4 class="font-semibold text-gray-800 mb-2 mobile-body">📞 Need Help or Have Questions?</h4>
+       <p class="text-sm text-gray-600 mb-3">Contact the organizing committee for assistance or more information about the burial arrangements.</p>
+       <div class="flex flex-wrap gap-2 justify-center"><button onclick="showContactInfo()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all hover:scale-105 touch-target"> Contact Organizers </button> <button onclick="showBurialDetails()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all hover:scale-105 touch-target"> Burial Details </button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <script>
+        // Splash Screen Management
+        function createParticles() {
+            const particlesContainer = document.getElementById('splashParticles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (4 + Math.random() * 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
 
-    <script>
+        function updateSplashStatus(status) {
+            const statusElement = document.getElementById('splashStatus');
+            if (statusElement) {
+                statusElement.textContent = status;
+            }
+        }
+
+        function hideSplashScreen() {
+            const splashScreen = document.getElementById('splashScreen');
+            const mainContent = document.getElementById('mainContent');
+            
+            if (splashScreen && mainContent) {
+                // Start fade out animation
+                splashScreen.classList.add('fade-out');
+                
+                // Show main content after splash starts fading
+                setTimeout(() => {
+                    mainContent.classList.add('show');
+                }, 400);
+                
+                // Remove splash screen completely
+                setTimeout(() => {
+                    splashScreen.style.display = 'none';
+                }, 800);
+            }
+        }
+
+        async function initializeSplashScreen() {
+            // Create animated particles
+            createParticles();
+            
+            // Simulate loading steps with timing for exactly 3 seconds
+            const loadingSteps = [
+                { status: 'Initializing...', delay: 0 },
+                { status: 'Loading Firebase...', delay: 400 },
+                { status: 'Connecting to database...', delay: 800 },
+                { status: 'Syncing data...', delay: 1200 },
+                { status: 'Loading contributors...', delay: 1600 },
+                { status: 'Preparing interface...', delay: 2000 },
+                { status: 'Almost ready...', delay: 2400 },
+                { status: 'Welcome!', delay: 2700 }
+            ];
+            
+            // Schedule all status updates
+            loadingSteps.forEach(step => {
+                setTimeout(() => {
+                    updateSplashStatus(step.status);
+                }, step.delay);
+            });
+            
+            // Hide splash screen after exactly 3 seconds
+            setTimeout(() => {
+                hideSplashScreen();
+            }, 3000);
+        }
+
+        // Start splash screen on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeSplashScreen();
+        });
+
+        // Also start immediately in case DOMContentLoaded already fired
+        if (document.readyState === 'loading') {
+            // Document still loading
+        } else {
+            // Document already loaded
+            initializeSplashScreen();
+        }
+
+    </script>
+  <script>
         // Initial data
         let fundraiserData = {
             target: 400000,
             groupSize: 57,
             contributors: [
-                { name: "Lieutenant Ebenezer", amount: 50000 },
-                { name: "Press (Combined)", amount: 34000 },
-                { name: "Barrister Francis", amount: 20000 },
-                { name: "Victoria", amount: 10000 }
+                { id: 'init1', name: "Lieutenant Ebenezer", amount: 50000, timestamp: Date.now() - 86400000 },
+                { id: 'init2', name: "Press (Combined)", amount: 34000, timestamp: Date.now() - 72000000 },
+                { id: 'init3', name: "Barrister Francis", amount: 20000, timestamp: Date.now() - 43200000 },
+                { id: 'init4', name: "Victoria", amount: 10000, timestamp: Date.now() - 21600000 }
             ]
         };
+
+        // Firebase sync functions
+        function initializeFirebase() {
+            if (!window.firebaseInitialized) {
+                setTimeout(initializeFirebase, 100);
+                return;
+            }
+
+            // Listen for real-time updates
+            const contributorsRef = window.firebaseRef(window.firebaseDB, 'contributors');
+            window.firebaseOnValue(contributorsRef, (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    // Convert Firebase object to array
+                    const contributors = Object.keys(data).map(key => ({
+                        id: key,
+                        ...data[key]
+                    }));
+                    
+                    // Update local data
+                    fundraiserData.contributors = contributors;
+                    updateDisplay();
+                    
+                    showNotification('Data synced with other users! 🔄', 'success');
+                }
+            });
+
+            // Initialize Firebase with current data if empty
+            window.firebaseOnValue(contributorsRef, (snapshot) => {
+                if (!snapshot.exists()) {
+                    // Upload initial data to Firebase
+                    fundraiserData.contributors.forEach(contributor => {
+                        const newRef = window.firebasePush(contributorsRef);
+                        window.firebaseSet(newRef, {
+                            name: contributor.name,
+                            amount: contributor.amount,
+                            timestamp: contributor.timestamp
+                        });
+                    });
+                }
+            }, { onlyOnce: true });
+
+            // Listen for support messages
+            const supportRef = window.firebaseRef(window.firebaseDB, 'supportMessages');
+            window.firebaseOnValue(supportRef, (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    const totalMessages = Object.keys(data).length;
+                    supportData.totalEmotionalSupport = totalMessages;
+                    
+                    // Count by type
+                    supportData.prayersSent = 0;
+                    supportData.comfortMessagesSent = 0;
+                    supportData.memoriesShared = 0;
+                    supportData.supportOffered = 0;
+                    supportData.strengthMessagesSent = 0;
+                    supportData.gratitudeExpressed = 0;
+                    
+                    Object.values(data).forEach(message => {
+                        switch(message.type) {
+                            case 'prayer': supportData.prayersSent++; break;
+                            case 'comfort': supportData.comfortMessagesSent++; break;
+                            case 'memory': supportData.memoriesShared++; break;
+                            case 'support': supportData.supportOffered++; break;
+                            case 'strength': supportData.strengthMessagesSent++; break;
+                            case 'gratitude': supportData.gratitudeExpressed++; break;
+                        }
+                    });
+                    
+                    supportData.messagesShared = totalMessages;
+                    updateDisplay();
+                }
+            });
+        }
+
+        function saveContributorToFirebase(contributor) {
+            if (!window.firebaseInitialized) return;
+            
+            const contributorsRef = window.firebaseRef(window.firebaseDB, 'contributors');
+            const newRef = window.firebasePush(contributorsRef);
+            window.firebaseSet(newRef, {
+                name: contributor.name,
+                amount: contributor.amount,
+                timestamp: Date.now()
+            });
+        }
+
+        function saveSupportMessageToFirebase(type) {
+            if (!window.firebaseInitialized) return;
+            
+            const supportRef = window.firebaseRef(window.firebaseDB, 'supportMessages');
+            const newRef = window.firebasePush(supportRef);
+            window.firebaseSet(newRef, {
+                type: type,
+                timestamp: Date.now()
+            });
+        }
 
         function formatCurrency(amount) {
             return `₦${amount.toLocaleString()}`;
@@ -1187,33 +1535,61 @@
             
             // Show loading state
             const originalContent = button.innerHTML;
-            button.innerHTML = '<span class="loading-shimmer w-4 h-4 rounded mr-2 inline-block"></span>Adding...';
+            const isOnline = navigator.onLine;
+            
+            if (isOnline) {
+                button.innerHTML = '<span class="loading-shimmer w-4 h-4 rounded mr-2 inline-block"></span>Saving to cloud...';
+            } else {
+                button.innerHTML = '<span class="loading-shimmer w-4 h-4 rounded mr-2 inline-block"></span>Saving offline...';
+            }
             button.disabled = true;
             
-            // Simulate processing time for better UX
-            setTimeout(() => {
-                fundraiserData.contributors.push({ name, amount });
-                
-                // Clear inputs
-                nameInput.value = '';
-                amountInput.value = '';
-                
-                // Update display with animation
-                updateDisplay();
+            // Create contributor object
+            const contributor = { name, amount, timestamp: Date.now() };
+            
+            if (isOnline) {
+                // Save to Firebase (will trigger real-time update)
+                saveContributorToFirebase(contributor);
                 
                 // Show success state
-                button.innerHTML = '<span class="relative z-10">✅ Added Successfully!</span>';
-                button.classList.add('button-success');
-                
-                showNotification(`${name}'s contribution of ${formatCurrency(amount)} added successfully!`);
-                
                 setTimeout(() => {
-                    button.innerHTML = originalContent;
-                    button.classList.remove('button-success');
-                    button.disabled = false;
-                    nameInput.focus();
-                }, 2000);
-            }, 800);
+                    button.innerHTML = '<span class="relative z-10">✅ Saved & Synced!</span>';
+                    button.classList.add('button-success');
+                    
+                    showNotification(`${name}'s contribution of ${formatCurrency(amount)} saved and synced with all users! 🌐`);
+                    
+                    setTimeout(() => {
+                        button.innerHTML = originalContent;
+                        button.classList.remove('button-success');
+                        button.disabled = false;
+                        nameInput.focus();
+                    }, 2000);
+                }, 800);
+            } else {
+                // Handle offline contribution
+                handleOfflineContribution(contributor);
+                
+                // Add to local data immediately for UI update
+                fundraiserData.contributors.push(contributor);
+                updateDisplay();
+                
+                // Show offline success state
+                setTimeout(() => {
+                    button.innerHTML = '<span class="relative z-10">📱 Saved Offline!</span>';
+                    button.classList.add('button-success');
+                    
+                    setTimeout(() => {
+                        button.innerHTML = originalContent;
+                        button.classList.remove('button-success');
+                        button.disabled = false;
+                        nameInput.focus();
+                    }, 2000);
+                }, 800);
+            }
+            
+            // Clear inputs
+            nameInput.value = '';
+            amountInput.value = '';
         }
 
         function updateSimulation() {
@@ -2160,11 +2536,14 @@ Name: OLORUNFEMI Ayodele Janet`;
                     <div class="space-y-4 mb-6">
                         <div class="p-4 bg-indigo-50 rounded-lg border-l-4 border-indigo-500">
                             <div class="font-semibold text-indigo-800 mb-1">Date & Time</div>
-                            <div class="text-sm text-indigo-600">November 28-29, 2024</div>
+                            <div class="text-sm text-indigo-600">November 28-29, 2024 at 9:00 AM</div>
                         </div>
                         <div class="p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
                             <div class="font-semibold text-green-800 mb-1">Location</div>
-                            <div class="text-sm text-green-600">Abuja, Nigeria</div>
+                            <div class="text-sm text-green-600">Gudu Cemetery, Abuja</div>
+                            <button onclick="openLocationMap()" class="mt-2 bg-green-600 hover:bg-green-700 text-white text-xs px-3 py-1 rounded-lg transition-all">
+                                📍 View on Map
+                            </button>
                         </div>
                         <div class="p-4 bg-orange-50 rounded-lg border-l-4 border-orange-500">
                             <div class="font-semibold text-orange-800 mb-1">Target Amount</div>
@@ -2216,6 +2595,10 @@ Name: OLORUNFEMI Ayodele Janet`;
         };
 
         function trackSupportMessage(type) {
+            // Save to Firebase (will trigger real-time update for all users)
+            saveSupportMessageToFirebase(type);
+            
+            // Also update local data immediately for responsive UI
             supportData.totalEmotionalSupport++;
             switch(type) {
                 case 'prayer':
@@ -2239,7 +2622,7 @@ Name: OLORUNFEMI Ayodele Janet`;
             }
             supportData.messagesShared++;
             
-            // Store in localStorage
+            // Store in localStorage as backup
             localStorage.setItem('bukkySupportData', JSON.stringify(supportData));
         }
 
@@ -2248,6 +2631,12 @@ Name: OLORUNFEMI Ayodele Janet`;
             if (stored) {
                 supportData = JSON.parse(stored);
             }
+        }
+
+        function openLocationMap() {
+            const mapUrl = 'https://maps.app.goo.gl/5D0FOGeg5AospK0nz';
+            window.open(mapUrl, '_blank', 'noopener,noreferrer');
+            showNotification('Opening cemetery location on Google Maps...', 'success');
         }
 
         function showSupportStats() {
@@ -2386,9 +2775,282 @@ Name: OLORUNFEMI Ayodele Janet`;
             });
         }
 
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', async () => {
+                try {
+                    // Create service worker inline
+                    const swCode = `
+                        const CACHE_NAME = 'bukky-support-v1';
+                        const urlsToCache = [
+                            '/',
+                            'https://cdn.tailwindcss.com/3.3.0',
+                            'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js',
+                            'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js'
+                        ];
+
+                        self.addEventListener('install', (event) => {
+                            event.waitUntil(
+                                caches.open(CACHE_NAME)
+                                    .then((cache) => cache.addAll(urlsToCache))
+                            );
+                        });
+
+                        self.addEventListener('fetch', (event) => {
+                            event.respondWith(
+                                caches.match(event.request)
+                                    .then((response) => {
+                                        // Return cached version or fetch from network
+                                        return response || fetch(event.request);
+                                    }
+                                )
+                            );
+                        });
+
+                        // Handle background sync for offline contributions
+                        self.addEventListener('sync', (event) => {
+                            if (event.tag === 'background-sync') {
+                                event.waitUntil(syncOfflineData());
+                            }
+                        });
+
+                        async function syncOfflineData() {
+                            // Sync offline contributions when back online
+                            const offlineData = await getOfflineData();
+                            if (offlineData.length > 0) {
+                                // Process offline contributions
+                                for (const contribution of offlineData) {
+                                    try {
+                                        await syncContribution(contribution);
+                                    } catch (error) {
+                                        console.error('Failed to sync contribution:', error);
+                                    }
+                                }
+                                await clearOfflineData();
+                            }
+                        }
+
+                        async function getOfflineData() {
+                            // Get offline data from IndexedDB or localStorage
+                            return JSON.parse(localStorage.getItem('offlineContributions') || '[]');
+                        }
+
+                        async function clearOfflineData() {
+                            localStorage.removeItem('offlineContributions');
+                        }
+
+                        async function syncContribution(contribution) {
+                            // Sync with Firebase when online
+                            // This would integrate with the existing Firebase sync
+                        }
+                    `;
+
+                    const blob = new Blob([swCode], { type: 'application/javascript' });
+                    const swUrl = URL.createObjectURL(blob);
+                    
+                    const registration = await navigator.serviceWorker.register(swUrl);
+                    console.log('ServiceWorker registered successfully');
+                    
+                    // Show install prompt
+                    showInstallPrompt();
+                    
+                } catch (error) {
+                    console.log('ServiceWorker registration failed: ', error);
+                }
+            });
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallBanner();
+        });
+
+        function showInstallBanner() {
+            // Create install banner
+            const installBanner = document.createElement('div');
+            installBanner.id = 'installBanner';
+            installBanner.className = 'fixed top-0 left-0 right-0 bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 z-50 transform -translate-y-full transition-transform duration-500';
+            installBanner.innerHTML = `
+                <div class="flex items-center justify-between max-w-7xl mx-auto">
+                    <div class="flex items-center space-x-3">
+                        <span class="text-2xl">📱</span>
+                        <div>
+                            <div class="font-bold text-sm">Install Bukky Support App</div>
+                            <div class="text-xs opacity-90">Get quick access and offline support</div>
+                        </div>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button onclick="installPWA()" class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm font-semibold transition-all">
+                            Install
+                        </button>
+                        <button onclick="dismissInstallBanner()" class="bg-white/10 hover:bg-white/20 px-3 py-2 rounded-lg text-sm transition-all">
+                            ✕
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(installBanner);
+            
+            // Show banner with animation
+            setTimeout(() => {
+                installBanner.style.transform = 'translateY(0)';
+            }, 1000);
+            
+            // Auto-hide after 10 seconds
+            setTimeout(() => {
+                if (document.getElementById('installBanner')) {
+                    dismissInstallBanner();
+                }
+            }, 10000);
+        }
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        showNotification('App installed successfully! 🎉', 'success');
+                    }
+                    deferredPrompt = null;
+                    dismissInstallBanner();
+                });
+            }
+        }
+
+        function dismissInstallBanner() {
+            const banner = document.getElementById('installBanner');
+            if (banner) {
+                banner.style.transform = 'translateY(-100%)';
+                setTimeout(() => {
+                    if (banner.parentNode) {
+                        banner.parentNode.removeChild(banner);
+                    }
+                }, 500);
+            }
+        }
+
+        function showInstallPrompt() {
+            // Show a subtle notification about PWA capabilities
+            setTimeout(() => {
+                if (!window.matchMedia('(display-mode: standalone)').matches) {
+                    showNotification('💡 Tip: Add this app to your home screen for quick access!', 'success');
+                }
+            }, 3000);
+        }
+
+        // Offline Support
+        function handleOfflineContribution(contributor) {
+            // Store contribution offline for later sync
+            const offlineContributions = JSON.parse(localStorage.getItem('offlineContributions') || '[]');
+            offlineContributions.push({
+                ...contributor,
+                timestamp: Date.now(),
+                synced: false
+            });
+            localStorage.setItem('offlineContributions', JSON.stringify(offlineContributions));
+            
+            // Register for background sync
+            if ('serviceWorker' in navigator && 'sync' in window.ServiceWorkerRegistration.prototype) {
+                navigator.serviceWorker.ready.then((registration) => {
+                    return registration.sync.register('background-sync');
+                });
+            }
+            
+            showNotification('Contribution saved offline. Will sync when online! 📱', 'success');
+        }
+
+        // Check online status
+        function updateOnlineStatus() {
+            const syncStatus = document.getElementById('syncStatus');
+            if (navigator.onLine) {
+                syncStatus.innerHTML = `
+                    <div class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <span>🌐 Real-time sync active</span>
+                `;
+                syncStatus.className = 'bg-white/20 rounded-lg px-3 py-1 text-xs text-indigo-100 mb-2 flex items-center space-x-2';
+            } else {
+                syncStatus.innerHTML = `
+                    <div class="w-2 h-2 bg-orange-400 rounded-full"></div>
+                    <span>📱 Offline mode - data will sync when online</span>
+                `;
+                syncStatus.className = 'bg-orange-500/20 rounded-lg px-3 py-1 text-xs text-orange-100 mb-2 flex items-center space-x-2';
+            }
+        }
+
+        // Listen for online/offline events
+        window.addEventListener('online', () => {
+            updateOnlineStatus();
+            showNotification('Back online! Syncing data... 🌐', 'success');
+            // Trigger sync of offline data
+            syncOfflineContributions();
+        });
+
+        window.addEventListener('offline', () => {
+            updateOnlineStatus();
+            showNotification('You\'re offline. Contributions will be saved locally. 📱', 'success');
+        });
+
+        async function syncOfflineContributions() {
+            const offlineContributions = JSON.parse(localStorage.getItem('offlineContributions') || '[]');
+            const unsynced = offlineContributions.filter(c => !c.synced);
+            
+            for (const contribution of unsynced) {
+                try {
+                    // Save to Firebase
+                    saveContributorToFirebase(contribution);
+                    
+                    // Mark as synced
+                    contribution.synced = true;
+                } catch (error) {
+                    console.error('Failed to sync contribution:', error);
+                }
+            }
+            
+            // Update localStorage
+            localStorage.setItem('offlineContributions', JSON.stringify(offlineContributions));
+            
+            if (unsynced.length > 0) {
+                showNotification(`${unsynced.length} offline contributions synced! ✅`, 'success');
+            }
+        }
+
+        // Handle URL parameters for PWA shortcuts
+        function handlePWAShortcuts() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const action = urlParams.get('action');
+            
+            switch(action) {
+                case 'contribute':
+                    setTimeout(() => scrollToContribution(), 1000);
+                    break;
+                case 'progress':
+                    // Highlight progress section
+                    setTimeout(() => {
+                        const progressCard = document.querySelector('.mobile-progress').closest('.mobile-card');
+                        if (progressCard) {
+                            progressCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            progressCard.style.boxShadow = '0 0 0 4px rgba(59, 130, 246, 0.3)';
+                            setTimeout(() => progressCard.style.boxShadow = '', 2000);
+                        }
+                    }, 1000);
+                    break;
+                case 'support':
+                    setTimeout(() => showPrayerMessage(), 1000);
+                    break;
+            }
+        }
+
         // Initialize app
         loadSupportData();
+        initializeFirebase();
         initializeApp();
+        updateOnlineStatus();
+        handlePWAShortcuts();
 
         // Animate progress circle on load
         document.addEventListener('DOMContentLoaded', function() {
@@ -2418,5 +3080,5 @@ Name: OLORUNFEMI Ayodele Janet`;
             });
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'994c5f26e56316d0',t:'MTc2MTUwNzA2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'995494ce17e36be9',t:'MTc2MTU5MzE0Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
