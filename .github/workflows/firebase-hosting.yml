@@ -1,21 +1,13 @@
-name: Deploy to Firebase Hosting
-on:
-  push:
-    branches: [ "main" ]
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-      - run: npm i -g firebase-tools
-      - name: Authenticate
-        env:
-          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-        run: |
-          echo "$FIREBASE_SERVICE_ACCOUNT" > ${{ runner.temp }}/gcp-key.json
-          echo "GOOGLE_APPLICATION_CREDENTIALS=${{ runner.temp }}/gcp-key.json" >> $GITHUB_ENV
-      - name: Deploy
-        run: firebase deploy --only hosting --project support-for-bukky-burial
+{
+  "type": "service_account",
+  "project_id": "calm-history-476501-t2",
+  "private_key_id": "3bbdee6c576afca06337f5957746131e1ce06e52",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCkt3Hzz9iNaMlP\nHFxl5SBQTca7WiIFpBjGa0pFrZRemgwlTZ2ShIKQBnXyj45M3jKl4pTCf12lk43N\nCU3z3V1ndSaiW0bUigwNtAYm1TQ6kQjImLrJzS4Nqb6ywQtKVhWZgt7HYvN9PMJT\nZ3iHekkbAPqgF/IWxNGneuuwoApypijAUgbh1i2YSmoMe+ulPZ7G2y8gWNVkuz3G\nbiuKxYaKECRx1PE5F5IgKjStXSShRoyi+eBDSTGDWfmczYxOKTY9ZWu/iOZr6Dzb\ngwGfUHA7MxmTAw94v0rjKxV9hT/tlwnPMNPejacYmYdv5xfGrw3uJHZbiL20lnz7\nC/fp5gCtAgMBAAECggEAA9tBRIwUbeGK+3P872wys+HRfVSm50SB4zAv4cgmnFbO\n+5cA0XIr/GND7662Wv/4zGZGeI2y2GWUASQh0+VvtZrKKyyOUMhkPKd/KizKHdtR\nCu4VSxRBHi2TOwXG1eUeEr7VqHI3CsxmLSQgoxgup5f/38lJVoi7jK6vRftfqaXg\noco/bi5UlT3s32gRSeFR9qAYNeoA8PKcrns59o9pC8+fqQ6U/PEadGoGVxW7tdm7\nPu9XRtG+hZZ9qpi/JYrwg/XsUcclZWCNQsNV/TloNJNevnwK+D0UHRKXKIpDTaSB\ny09t4ZqFAPZtgl5KhM5r7izFGMrP/uPRwIPGg3yEAQKBgQDbY30VUVhS8on4nGCs\nUhnY3HpPdziFhYmBooavEIZN52x6FtekxbOe1yyiMNPvqEwkQSNJ3rpfd//7tZ08\nsf2SwBH8pKYsS8DPcCIN8hNBsK31+y5B1VdK+ynWkRN6gXjosWZe6aWA0/ayRLnU\njQceieyXfJEHUygsmp5mn61qDQKBgQDANE9Eg0BDOknVdBZTjfdaWIzYyQ6eIM3C\nXVAN7mfczYFzhKi8g3VnBPkbxyKAL9yYDdpbK8uX9jo3YbbTxCGNP+wUZMj4owhJ\n5Yoz6rytJHwK/d+BYO3QTFNK8p0tAz10s1e9IFoZrLS0vEtprrAWZjyp44VUILpJ\nPzSafTxpIQKBgQC8hHoIZnTqGeW7Dsz3Zjk1owcq37xe58en8HuhVSbDLJiHNLeq\nrAPT+vwshp6nMkvzX1GueUhXHuuFZKMvc5b8kjUijm0IZTPSTH3G0/v+F470bxlp\nkqRHFxn1eYZuX3EBKudXqZgA4qL6vpmcbm7uq//0kCKjU66S3W49qvo9xQKBgDCJ\nhTMCCipv/9E9nZ3ADiTsk7TzIRPhqNRaiCrcd7IU24n2iD4C3JUFdnsDUL0aWRS0\n+t1nM+TOM2lk7ayQrQBkkhOcV/wh/6fZpYryzm7S9dg4wEaF2chuXeJhXjvNw6lC\n2PdTwi0VphS2MD0h9inR66PjZvoVwbVZlskksyrBAoGBALdgYPKi/pbLyt8BmKx2\nGebMSW/rZSG1hkoiO/AkWXy81FlROc6VHyleyvAY9kYW1gWJnSwTvrKb7B07rcgX\n5vI10Q5SWnScQqY2s9W59OeqasjMTYQHdcvry3drkYBPZ9LYcRDmsi/m6JGyeagV\n+eo2jQOLXzKiRnmODBcoDw+D\n-----END PRIVATE KEY-----\n",
+  "client_email": "github-action@calm-history-476501-t2.iam.gserviceaccount.com",
+  "client_id": "109274151430387463128",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/github-action%40calm-history-476501-t2.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
